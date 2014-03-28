@@ -3,7 +3,7 @@ library("RColorBrewer")
 library(reshape)
 
 #specify the path where you want to save the plots
-setwd("/home/deeksha/github/msan622/homework1")
+#setwd("/home/deeksha/github/msan622/homework1")
 
 #dataset
 data(movies)
@@ -48,7 +48,7 @@ ggsave(p1,file="hw1-scatter.png")
 movies$genre <- factor(movies$genre, levels=c("Mixed", "Drama", "None","Comedy","Action","Short","Documentary","Romance","Animation"))
 p1<-ggplot(movies,aes(genre,fill = genre))+geom_histogram(fill="blue",color="black",binwidth = 0.5)
 p1<-p1+theme(axis.text = element_text(colour="black",,size=15))+xlab("Genre")+ylab("Total Count")
-p1<-p1+theme(title=element_text(size=15),legend.title=element_text(size=15),legend.text=element_text(size=12),axis.title= element_text(size=15),axis.text = element_text(colour="black",size=14,face="bold"))
+p1<-p1+theme(title=element_text(size=15),legend.title=element_text(size=15),legend.text=element_text(size=12),axis.title= element_text(size=15),axis.text = element_text(colour="black",size=14))
 p1<-p1+ggtitle("Number of movies by genre")+theme(axis.ticks.x = element_blank(),panel.grid.minor.y = element_blank())+theme(panel.grid.major.x = element_blank(),axis.title.x = element_blank())
 p1<-p1+scale_y_continuous(expand = c(0, 20))
 print(p1)
@@ -74,10 +74,11 @@ time<-(rep(timevector,4))
 prices_time_data<-data.frame(pricedata,time)
 names(prices_time_data)[1]<-"Prices"
 p1<-ggplot(prices_time_data,aes(time,value,color=Prices))+geom_line()
+p1
 p1<-p1+theme(axis.title= element_text(size=15,face="bold"),axis.text = element_text(colour="black",size=14))+xlab("Year")+ylab("Price")
 p1<-p1+scale_x_continuous(breaks = seq(min(prices_time_data$time)-0.496, max(prices_time_data$time), by = 1))
-p1<-p1+theme(title=element_text(size=15),legend.title=element_text(size=15),legend.text=element_text(size=12),axis.title= element_text(size=15,face="bold"),axis.text = element_text(colour="black",size=14,face="bold"))
-p1<-p1+ggtitle("Index Prices over Time")
+p1<-p1+theme(title=element_text(size=15),legend.title=element_text(size=15),legend.text=element_text(size=12),axis.title= element_text(size=15,face="bold"),axis.text = element_text(colour="black",size=14))
+p1<-p1+ggtitle("Index Prices over Time")+theme(legend.position=c(.5,0.965),legend.direction="horizontal",legend.title=element_blank())
 print(p1)
 
 ggsave("hw1-multiline.png")
