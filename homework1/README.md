@@ -38,5 +38,8 @@ First, notice that many of the simple statistics for these four series are the s
 However, when we plot these four series as scatterplots with trend lines, we can see they each have a distinct pattern:
 
 ![IMAGE](hw1-scatter.png)
+![IMAGE](hw1-bar.png)
+![IMAGE](hw1-multiples.png)
+![IMAGE](hw1-multilines.png)
 
 While this is a simple (and contrived) example, it does help motivate how visualization can help us quickly see patterns in data.
