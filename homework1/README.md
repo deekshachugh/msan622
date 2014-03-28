@@ -1,9 +1,9 @@
-Homework 0: Anscombe's Quartet
+Homework 1: Basic Charts
 ==============================
 
-| **Name**  | Sophie Engle |
+| **Name**  | Deeksha Chugh |
 |----------:|:-------------|
-| **Email** | sjengle@usfca.edu |
+| **Email** | dchugh@usfca.edu |
 
 ## Instructions ##
 
@@ -11,35 +11,48 @@ The following packages must be installed prior to running this code:
 
 - `ggplot2`
 - `devtools`
-- `plyr`
+- `reshape`
 
 To run this code, please enter the following commands in R:
 
 ```
 library(devtools)
-source_url("https://raw.github.com/sjengle/msan622/template/homework0/anscombe.r")
+source_url("https://github.com/deekshachugh/msan622/blob/master/homework1/Homework1.R")
 ```
 
-This will generate 1 image and some text output. See below for details.
+This will generate 4 images. See below for details.
 
 ## Discussion ##
 
-First, notice that many of the simple statistics for these four series are the same:
+
 
 ```R
-> print(stats)
-  group mean_x   mean_y var_x    var_y correlation lm_intercept lm_x_effect
-1     1      9 7.500909    11 4.127269   0.8164205     3.000091   0.5000909
-2     2      9 7.500909    11 4.127629   0.8162365     3.000909   0.5000000
-3     3      9 7.500000    11 4.122620   0.8162867     3.002455   0.4997273
-4     4      9 7.500909    11 4.123249   0.8165214     3.001727   0.4999091
+
 ```
 
-However, when we plot these four series as scatterplots with trend lines, we can see they each have a distinct pattern:
+Plot 1
 
 ![IMAGE](hw1-scatter.png)
+
+In the above plot, I changed the colour of the text of the axes to black colour because the default grey colour is very light. I also increased the size of the axis, legend and made it bold.
+I also converted the actual budget into budget in millions to increase the readability of the graph. I used the colour brewer package to change colour of the various genre of the movies.
+
+Plot 2
+
 ![IMAGE](hw1-bar.png)
+
+I rearranged the genres in the decreasing order of their frequency to display the comparison between genres effectively. I filled the bars with blue colour and outlined it with black. I increase the size of the axes and title and changed the colour to black.
+
+Plot 3
+
 ![IMAGE](hw1-multiples.png)
+
+I converted the actual budget into budget in millions to increase the readability of the graph. and I changed the colour of the graph to blue to be consistent with my previous graph. I also removed the legend because it was redundant as the title on each small plot is representative of its genre. I used strip.text.x feature to increase the size and colour of the genres titles. I increased the sizes of the legend, title and axes in order to increase the readability.
+
+Plot 4
+
 ![IMAGE](hw1-multiline.png)
 
-While this is a simple (and contrived) example, it does help motivate how visualization can help us quickly see patterns in data.
+In order to plot charts, I melted the data to have a column which contains all the index labels and time element and used ggplot color attribute to draw multiple lines.
+I changed the x axis to show all the years present in the data. I increased the sizes of the legend, title and axes in order to increase the readability.
+
