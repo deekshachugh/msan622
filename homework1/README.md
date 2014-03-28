@@ -29,7 +29,7 @@ This will generate 4 images. See below for details.
 
 ![IMAGE](hw1-scatter.png)
 
-In the above plot, I changed the color of the text of the axes to black because the default grey color is very light. I also increased the size of the axis and the legend, and made it bold. The budget is represented in millions to increase the readability of the graph. I used color blind friendly colors to depict the genre of the movies. 
+In the above plot, I changed the color of the text of the axes to black because the default grey color is very light. I also increased the size of the axis and the legend, and made the axes title bold. The budget is represented in millions to increase the readability of the graph. I used color blind friendly colors to depict the genre of the movies. I also changed the position and direction of the legend to decrease the amount of extra space taken by the legend.
 
 ### Plot 2 ###
 
