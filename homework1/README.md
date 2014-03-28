@@ -53,6 +53,6 @@ The budget is represented in millions to increase the readability of the graph. 
 
 ![IMAGE](hw1-multiline.png)
 
-In order to plot multiline charts, I converted the data using melt command from reshape library to have a column which contains all the index labels and time element and used ggplot color attribute to draw multiple lines.
-I changed the x axis to show all the years present in the data. I increased the sizes of the legend, title and axes in order to increase the readability.
+In order to plot multiline charts, I converted the data using melt command from reshape library to have a column that contains all the index labels and time element and used ggplot color attribute to draw multiple lines.
+The scale_x_continuous feature of the ggplot was used for x-axis to display all the years present in the data. I increased the sizes of the legend, title and axes in order to increase the readability.
 
