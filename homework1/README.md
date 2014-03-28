@@ -25,34 +25,28 @@ This will generate 4 images. See below for details.
 ## Discussion ##
 
 
-
-```R
-
-```
-
-Plot 1
+### Plot 1 ###
 
 ![IMAGE](hw1-scatter.png)
 
-In the above plot, I changed the colour of the text of the axes to black colour because the default grey colour is very light. I also increased the size of the axis, legend and made it bold.
-I also converted the actual budget into budget in millions to increase the readability of the graph. I used the colour brewer package to change colour of the various genre of the movies.
+In the above plot, I changed the color of the text of the axes to black because the default grey color is very light. I also increased the size of the axis and the legend, and made it bold. The budget is represented in millions to increase the readability of the graph. I used color blind friendly colors to depict the genre of the movies. 
 
-Plot 2
+### Plot 2 ###
 
 ![IMAGE](hw1-bar.png)
 
-I rearranged the genres in the decreasing order of their frequency to display the comparison between genres effectively. I filled the bars with blue colour and outlined it with black. I increase the size of the axes and title and changed the colour to black.
+I rearranged the genres in the decreasing order of their frequency to display the comparison between genres effectively. I filled the bars with blue color and outlined it with black to make it pleasing. I also increased the size of the axis and the legend, and made it bold similar to plot 1. I removed the ticks on the x axes as they are not useful in a bar chart. 
 
-Plot 3
+### Plot 3 ###
 
 ![IMAGE](hw1-multiples.png)
 
-I converted the actual budget into budget in millions to increase the readability of the graph. and I changed the colour of the graph to blue to be consistent with my previous graph. I also removed the legend because it was redundant as the title on each small plot is representative of its genre. I used strip.text.x feature to increase the size and colour of the genres titles. I increased the sizes of the legend, title and axes in order to increase the readability.
+I converted the actual budget column into a new column budget in millions to increase the readability of the graph. and I changed the color of the graph to blue to be consistent with my previous graph. I also removed the legend because it was redundant as the title on each small plot is representative of its genre. I used strip.text.x feature to increase the size and color of the genres titles. I increased the sizes of the legend, title and axes in order to increase the readability.
 
-Plot 4
+### Plot 4 ###
 
 ![IMAGE](hw1-multiline.png)
 
-In order to plot charts, I melted the data to have a column which contains all the index labels and time element and used ggplot color attribute to draw multiple lines.
+In order to multiline plot charts, I converted the data using melt command from reshape library to have a column which contains all the index labels and time element and used ggplot color attribute to draw multiple lines.
 I changed the x axis to show all the years present in the data. I increased the sizes of the legend, title and axes in order to increase the readability.
 
