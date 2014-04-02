@@ -29,41 +29,22 @@ globalData <- loadData()
 palette1 <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
               "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 getPlot <- function(localFrame,highlight,alphasize,dotsize,GenreSelection,colorScheme) {
-  p1<-ggplot(localFrame,aes(budgetmillions,rating))+geom_point(aes(colour=factor(mpaa)),alpha=alphasize, position="jitter",size=dotsize)
+  if(length(GenreSelection)==0) {
+    localFrame <-localFrame # None is selected
+  } else {
+    localFrame<-subset(localFrame,localFrame$genre %in% GenreSelection) 
+  }
+  p1<-ggplot(localFrame,aes(budgetmillions,rating))+geom_point(aes(colour=factor(mpaa)),alpha=alphasize,size=dotsize,position = position_jitter())
   p1<-p1+theme(axis.text = element_text(colour="black",size=15))
   p1<-p1+xlab("Movie Budget (in millions)")+ylab("Rating of the Movie")
   p1<-p1+ggtitle("Rating of movies by budget")
   p1<-p1+theme(title=element_text(size=15),legend.title=element_blank(),legend.text=element_text(size=12),axis.title= element_text(size=15,face="bold"),axis.text = element_text(colour="black",size=14))
-  p1<-p1+labs(fill = "Movie Genres")+theme(legend.position=c(.55,0.965),legend.direction="horizontal")
-  
-  palette <- brewer_pal(type = "qual", palette = "Set1")(4)
+  p1<-p1+labs(fill = "Movie Genres")+theme(legend.position=c(.55,0.965),legend.direction="horizontal")  
+  palette <- brewer_pal(type = "qual", palette = colorScheme)(4)
   Mpaa <- levels(localFrame$mpaa)
-  Genre <- levels(localFrame$genre)
-  
   palette[which(!Mpaa %in% highlight  & highlight != "All")] <- "#EEEEEE"
-  
-  palette[which(!Genre %in% GenreSelection)] <- "#EEEEEE"
-  
   p1 <- p1 + scale_color_manual(values = palette)
-  localPlot <- p1
-  if (colorScheme == "Qualitative 1") {
-    localPlot <- localPlot +
-      scale_color_brewer(type = "qual", palette = 1)
-  }
-  else if (colorScheme == "Qualitative 2") {
-    localPlot <- localPlot +
-      scale_color_brewer(type = "qual", palette = 2)
-  }
-  else if (colorScheme == "Color-Blind Friendly") {
-    localPlot <- localPlot +
-      scale_color_manual(values = palette1)
-  }
-  else {
-    localPlot <- localPlot +
-      scale_color_grey(start = 0.4, end = 0.4)
-  }
-  
-  return(localPlot)
+  return(p1)
 }
 
 shinyServer(function(input, output) {
@@ -89,7 +70,7 @@ shinyServer(function(input, output) {
     return(result[which(result %in% input$GenreSelection)])
   })
   output$scatterplot <- renderPlot({
-    print(getPlot(localFrame,getHighlight(),input$alphasize, input$dotsize,getGenreSelected(),input$colorScheme),width =600,height=600)
+    print(getPlot(localFrame,getHighlight(),input$alphasize, input$dotsize,getGenreSelected(),input$colorScheme),width =400,height=800)
     
   })
 })

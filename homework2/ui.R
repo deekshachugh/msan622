@@ -17,8 +17,8 @@ shinyUI(
       checkboxGroupInput(
         "GenreSelection",
         "Movie Genres:",
-        c("Action", "Animation", "Comedy","Drama","Documentary", "Romance", "Short"),
-        selected = c("Action", "Animation", "Comedy","Drama","Documentary", "Romance", "Short")
+        c("Action", "Animation", "Comedy","Drama","Documentary", "Mixed", "None", "Romance", "Short"),
+        selected = c("Action", "Animation", "Comedy","Drama","Documentary", "Mixed", "None", "Romance", "Short")
       ),
       sliderInput("dotsize", 
                   "Dot Size:", 
@@ -31,7 +31,7 @@ shinyUI(
                   "Alpha Size:", 
                   min = .1,
                   max = 1, 
-                  value = .5
+                  value = 0.99
       ),
       
       selectInput(
@@ -40,7 +40,7 @@ shinyUI(
         # This will be the control title.
         "Color Scheme:",
         # This will be the control choices.
-        choices = c("None", "Qualitative 1", "Qualitative 2", "Color-Blind Friendly")
+        choices = c("Default", "Accent", "Set1", "Set2", "Set3", "Dark2", "Pastel1", "Pastel2")
       ),
       width = 2
     ),
