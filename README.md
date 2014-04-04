@@ -5,6 +5,4 @@ MSAN 622 Data Visualization
 |----------:|:------------|
 | **Email** | dchugh@dons.usfca.edu |
 
-## About Me ##
 
-[I am Deeksha Chugh]
