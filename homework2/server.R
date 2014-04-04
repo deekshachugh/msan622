@@ -39,12 +39,25 @@ getPlot <- function(localFrame,highlight,alphasize,dotsize,GenreSelection,colorS
   p1<-p1+xlab("Movie Budget (in millions)")+ylab("Rating of the Movie")
   #p1<-p1+ggtitle("Rating of movies by budget")
   p1<-p1+theme(title=element_text(size=15),legend.title=element_blank(),legend.text=element_text(size=16),axis.title= element_text(size=15,face="bold"),axis.text = element_text(colour="black",size=14))
-  p1<-p1+labs(fill = "Movie Genres")+theme(legend.position=c(.85,0.05),legend.direction="horizontal")  
+  p1<-p1+labs(fill = "Movie Genres")+theme(legend.position = c(.85,0.05),                                           
+                                           legend.direction = "horizontal",
+                                           legend.background = element_blank(),
+                                           legend.key = element_rect(fill = NA),
+                                           panel.grid.major = element_line(color = "grey90"),
+                                           panel.background = element_rect(fill = NA)
+                                           
+                                           )  
+  p1<-p1+theme(plot.background = element_rect(colour = 'black', fill = 'white', size = 1))
+  p1<-p1+theme(axis.line = element_line(color = "black"))
   p1<-p1+scale_x_continuous(labels = dollar)
   palette <- brewer_pal(type = "qual", palette = colorScheme)(4)
-  Mpaa <- levels(localFrame$mpaa)
+  #Mpaa <- unique(localFrame$mpaa[order(localFrame$mpaa)])
+  Mpaa<-c("NC-17","R", "PG-13", "PG")
+  print(Mpaa)
   palette[which(!Mpaa %in% highlight  & highlight != "All")] <- "#EEEEEE"
-  p1 <- p1 + scale_color_manual(values = palette)
+  print(palette)
+  p1 <- p1 +scale_color_manual(values = palette)
+  #p1<-p1 + scale_color_manual(values = palette)
   return(p1)
 }
 
@@ -55,11 +68,8 @@ shinyServer(function(input, output) {
   
   # Choose what having no species selected should mean.
   getHighlight <- reactive({
-    result <- levels(localFrame$mpaa)
-    #         if(length(input$highlight) == 0) {
-    #             return(result)
-    #         }
-    #         else {
+    result <- levels(localFrame$mpaa)    
+    print(result[which(result %in% input$highlight)])
     return(result[which(result %in% input$highlight)])
     #         }
   })

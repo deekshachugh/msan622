@@ -17,7 +17,7 @@ shinyUI(fluidPage(
     
     column(2, h5("Ratings Explorer"),
            wellPanel(
-             radioButtons( "highlight", "", c("All", "NC-17", "PG", "PG-13","R"))
+             radioButtons( "highlight", "", c("All", "NC-17","R", "PG-13", "PG"))
            )
     )
   ),
@@ -33,7 +33,7 @@ shinyUI(fluidPage(
            
            column(2, h5("Transparency"),
                   wellPanel(
-                    sliderInput("alphasize", "", min = .1,max = 1, value = 0.99)
+                    sliderInput("alphasize", "", min = .1,max = 1, value = 0.6, step = 0.1)
                   ))
            
   )
