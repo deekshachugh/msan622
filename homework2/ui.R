@@ -1,10 +1,7 @@
 library(shiny)
 
-
-shinyUI(fluidPage(
-  
-  h3("Movie Ratings"),
-  
+shinyUI(fluidPage(  
+  h3("Movie Ratings"),  
   fluidRow(
     column(8, plotOutput("scatterplot")),
     column(2, h5("Genres Explorer"),
@@ -15,9 +12,10 @@ shinyUI(fluidPage(
                                  selected = c("Action", "Animation", "Comedy","Drama","Documentary", "Mixed", "None", "Romance", "Short")
              ))),
     
-    column(2, h5("Ratings Explorer"),
+    column(2, h5("Year"),
            wellPanel(
-             radioButtons( "highlight", "", c("All", "NC-17","R", "PG-13", "PG"))
+             radioButtons( "highlight", "", c("All","2000 or later", "1990 or later","1980 or later", "1970 or later", "1960 or later","1950 or later"), selected = "All")
+             
            )
     )
   ),
@@ -25,7 +23,7 @@ shinyUI(fluidPage(
   fluidRow(postion = "center",
            column(2, offset = 1, h5("Color Scheme"),
                   wellPanel(
-                    selectInput( "colorScheme", "", choices = c("Set1","Default", "Accent" , "Set2", "Set3", "Dark2", "Pastel1", "Pastel2")))),
+                    selectInput( "colorScheme", "", choices = c("Set1", "Default", "Accent", "Set2", "Set3", "Dark2", "Pastel1", "Pastel2")))),
            column(2, h5("Size"),
                   wellPanel(
                     sliderInput("dotsize", "",  min = 1, max = 10, value = 2)
