@@ -10,7 +10,7 @@ The following packages must be installed prior to running this code:
 
 - `ggplot2`
 - `shiny`
-- 'scales'
+- `scales`
 
 To run this code, please enter the following commands in R:
 
@@ -22,7 +22,7 @@ shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework2')
 ```
 Here is the app which I made:
 
-![IMAGE](shinyapp.png)
+![IMAGE](myshinyapp.png)
 
 ## Discussion ##
 
