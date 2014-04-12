@@ -32,7 +32,7 @@ The South region has high murder rate and high illiteracy
 
 
 Here is the screenshot of the visualization.
-![IMAGE](Technique1a.png)
+![IMAGE](Technique1.png)
 
 
 There are three different ways in which you can interact with this visualization.
@@ -41,7 +41,7 @@ Third, you can zoom into the visualization by selecting the range of x-axis. The
 
 You can also show states by checkbox:
 
-![IMAGE](Technique1b.png)
+![IMAGE](Technique10.png)
 
 I was curious to know that more about the various U.S states illiteracy rate and its association with Murder rate. The visualization helps us to see illiteracy rate by murder rate for different regions. The application also provides the state name and the population of the state which can be other factors for murder or illiteracy. Since a few of the bubbles are overlapping, the application provides a framework to zoom in which is helful in answering particular questions like "What was the illiteracy rate in CA?"
 
