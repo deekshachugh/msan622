@@ -21,7 +21,7 @@ loadData <- function() {
 globalData <- loadData()
 
 #returns a bubble plot
-getbubblePlot <- function(localFrame, colorby, region, range, size) {
+getbubblePlot <- function(localFrame, colorby, region, range, size, states) {
   
   #to check whether the zoom in range is just one point
   if(range[1] == range[2]){
@@ -37,7 +37,15 @@ getbubblePlot <- function(localFrame, colorby, region, range, size) {
   
   # to plot the data based on region or division
   if(colorby == "Region"){ 
-  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Region, size = Population,label = Abbrev))
+    if(states == TRUE){
+  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Region, size = Population,label = State))
+  p <- p + geom_text(size=5, color="black")
+    }
+    else{
+  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Region, size = Population))
+      
+    }
+    
   p <- p + theme(legend.position = c(0.7, 0))
   p <- p + theme(legend.title = element_blank())
   p <- p + theme(legend.direction = "horizontal")
@@ -48,11 +56,16 @@ getbubblePlot <- function(localFrame, colorby, region, range, size) {
   
   }
   else{
-  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color=Division, size = Population, label = Abbrev))
+    if(states == TRUE){
+      p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Division, size = Population,label = State))
+      p <- p + geom_text(size=5, color="black")
+    }
+    else{
+      p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Division, size = Population))
   p <- p + scale_colour_discrete(limits = levels(localFrame$Division))
-  }
+  }}
   # Provide annotation about the size of the bubble
-  p <- p + geom_text(size=5, color="black")
+ 
   p <- p + annotate("text", label = "Size of the bubble is by Population",
                     x = (range[1]+range[2])/2, y = 15, size = 4, colour = "black")
   # provide the zoom in support
@@ -130,7 +143,7 @@ getparallelCoordinatesPlot <- function(localFrame, colorby, region){
                   columns = c(1,2,8,7),
                   groupColumn =11,
                   scale = "uniminmax",
-                  order = c(1,2,8,7),showPoints = FALSE, alphaLines = 0.6,
+                  order = c(1,2,8,7),showPoints = FALSE, alphaLines = 1,
                   shadeBox = NULL)
   p <- p + theme(legend.position = "bottom", legend.text=element_text(size=14),
                  legend.title=element_blank())
@@ -192,7 +205,7 @@ shinyServer(function(input, output) {
   
  
   output$bubblePlot <- renderPlot(
-{ bubblePlot <- getbubblePlot(localFrame, input$colorby, input$region, input$range, input$size)
+{ bubblePlot <- getbubblePlot(localFrame, input$colorby, input$region, input$range, input$size, input$states)
   print(bubblePlot)
 }
   )
