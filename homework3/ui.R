@@ -22,15 +22,18 @@ shinyUI(fluidPage(
                       ),
                       br(),
                       br(),h5("Zoom In (Bubble Plot Only)"),
-                      sliderInput("range", "",  min = 0, max = 3, step = 0.1, value = c(0,3)))
+                      sliderInput("range", "",  min = 0, max = 2.9, step = 0.1, value = c(0,2.85)),
+                      br(),h5("Bubble Size (Bubble Plot Only)"),
+                      sliderInput("size", "",  min = 10, max = 30, step = 1, value = c(23))
+                      )
 
                     ,
                     
                     mainPanel(
                       tabsetPanel(
-                        tabPanel("Bubble Plot", plotOutput("bubblePlot")),      
-                        tabPanel("Scatter Plot", plotOutput("scatterplot")),
-                        tabPanel("Parallel Coordinates", plotOutput("parallelCoordinates"))
+                        tabPanel("Crime Rate Overview", plotOutput("bubblePlot")),      
+                        tabPanel("Social Overview", plotOutput("scatterplot")),
+                        tabPanel("Demographical Overview", plotOutput("parallelCoordinates"))
                       )  
                     )
                     
