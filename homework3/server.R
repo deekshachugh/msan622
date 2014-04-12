@@ -38,7 +38,7 @@ getbubblePlot <- function(localFrame, colorby, region, range, size, states) {
   # to plot the data based on region or division
   if(colorby == "Region"){ 
     if(states == TRUE){
-  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Region, size = Population,label = State))
+  p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Region, size = Population, label = Abbrev))
   p <- p + geom_text(size=5, color="black")
     }
     else{
@@ -57,7 +57,7 @@ getbubblePlot <- function(localFrame, colorby, region, range, size, states) {
   }
   else{
     if(states == TRUE){
-      p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Division, size = Population,label = State))
+      p <- ggplot(localFrame, aes(x = Illiteracy, y = Murder, color = Division, size = Population,label = Abbrev))
       p <- p + geom_text(size=5, color="black")
     }
     else{
