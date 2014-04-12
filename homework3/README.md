@@ -9,9 +9,9 @@ Homework [#]: Homework 3
 
 The following packages must be installed prior to running this code:
 
--`ggplot2`
--`shiny`
--`GGally`
+`ggplot2`
+`shiny`
+`GGally`
 
 To run this code, please enter the following commands in R:
 ```
@@ -24,7 +24,7 @@ shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework3')
 ###Crime Rate Overview###
 
 
-I was curious to know that more about the various U.S states illiteracy rate and its association with Murder rate.. I chose bubble plot over Heatmap because the attributes like population and area of the states along with other features can be well shown in the Bubble plot. 
+I was curious to know more about the various U.S states illiteracy rate and its association with Murder rate. I chose bubble plot over Heatmap because the attributes like population and area of the states along with other features can be well shown in the Bubble plot. 
 I included Murder rate, Illiteracy rate, State Names, Population and Region to show how illiteracy rate is related to Murder rate for different states of U.S. I chose regions or divisions to color the bubbles and shown state names on top of it.
 I tried to increase and decrease the size of the bubbles to see that it is visually appealing. 
 
