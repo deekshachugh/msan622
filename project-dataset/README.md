@@ -1,10 +1,10 @@
 Project: Dataset
 ==============================
 
-| **Name**  | [YOUR NAME]  |
+| **Name**  | Deeksha Chugh  |
 |----------:|:-------------|
-| **Email** | [USERNAME]@dons.usfca.edu |
+| **Email** | dchugh@dons.usfca.edu |
 
 ## Discussion ##
 
-[DISCUSSION: Include a discussion here if required by the assignment.]
+The dataset contains the weather data for 53 cities of US. The city code is the Airport code.
