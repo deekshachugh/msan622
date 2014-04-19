@@ -134,7 +134,8 @@ getbarplot <- function(localFrame ) {
 }
 
 
-getWordCloud <- function(localFrame_cloud){  
+getWordCloud <- function(localFrame_cloud)
+  {  
   obama.df <- subset(localFrame_cloud,localFrame_cloud$category == "obama")
   bush.df <- subset(localFrame_cloud,localFrame_cloud$category == "bush")
   equal.df <- subset(localFrame_cloud,localFrame_cloud$category == "equal")
@@ -150,7 +151,6 @@ getWordCloud <- function(localFrame_cloud){
   p <- p + theme(axis.ticks = element_blank()) 
   
   p <- p+theme(title=element_text(size=15),
-               
                text=element_text(size=15,color="white",face="bold"),
                axis.title= element_text(size=15,face="bold"))
   
@@ -158,12 +158,7 @@ getWordCloud <- function(localFrame_cloud){
   p <- p+theme(panel.background = element_rect(fill = NA))
   p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black'))
   p <- p + theme(legend.position = c(0.9, 0.9))
-  
-  
-    
   p <- p + theme(legend.background = element_blank())
-  
-  
 return(p)
 }
 
@@ -196,13 +191,6 @@ getfreqplot<- function(localFrame)
   p <- p + ggtitle("Obama (2014 vs 2013)")
   p <- p + theme(axis.line = element_line(colour = "white"),
                  panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-  
-  
-  
- # p <- p + coord_fixed(
-  #  ratio = 5/6, 
-   # xlim = c(0, 50),
-  #  ylim = c(0, 50))
   
   p <- p+theme(title=element_text(size=15),
                legend.title=element_blank(),
