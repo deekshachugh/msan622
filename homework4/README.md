@@ -51,6 +51,6 @@ The color coding is preserved. The legend was arranged to save the space.
 Here is the screenshot of the visualization:
 ![IMAGE](PhraseNet.png)
 
-Phrase-Net was used to represent Obama - State of the Union(2014) at the link below:
+Phrase-Net is used to represent Obama - State of the Union(2014) speeches at the link below:
 http://www-958.ibm.com/software/data/cognos/manyeyes/visualizations/new/phrasenet/state-of-the-union-obama-2014/1
 
