@@ -11,7 +11,6 @@ The following packages must be installed prior to running this code:
 ```
 library(tm)       
 library(SnowballC) 
-library(tm)
 library(ggplot2)
 library(shiny)
 ```
@@ -27,7 +26,7 @@ shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework4')
 
 Here is the screenshot of the visualization:
 ![IMAGE](BarPlot.png)
-The above plot displays the most frequent words used by Bush and Obama in their speeches over the range of 4 years. I assigned the red color to Obama and green color to Bush and its consistent across whole all the visualizations. I removed the ticks, panel.grid, legend background. The background color was changed to black so that it is easier for people to look at the visualizations for long hours. The position of the legend was also adjusted on to the graph to save extra space.
+The above plot displays the most frequent words used by Bush and Obama in their speeches over the range of 4 years. I assigned the red color to Obama and green color to Bush and its consistent across all the visualizations. I removed the ticks, panel.grid, legend background to make in visually appealing. The background color was changed to black so that it is easier for people to look at the visualizations for long hours. The position of the legend was also adjusted on to the graph to save space.
 
 
 ### Obama Word Frequency(2013 vs 2014) ###
@@ -36,14 +35,14 @@ Here is the screenshot of the visualization:
 ![IMAGE](FrequencyPlot.png)
 
 The color of the words is red because I have assigned red color to Obama throughout all visualizations.
-The size of the word is made bigger to increase readability. The background color is changed to black and all other axes text is changed to white color so that it is visible on black background. I removed the grid lines and added the major an dminor grid lines.
+The size of the word is made bigger to increase readability. The background color is changed to black and all other axes text is changed to white color so that it is visible on black background. I removed the grid lines and added the major and minor grid lines.
 
 ### Obama vs Bush ###
 
 Here is the screenshot of the visualization:
 ![IMAGE](WordCloud.png)
 
-The above plot show the difference between the words said by Obama and Bush. The plot also shows the words which are common in both of their speeches. The size of the word is showing the frequncy of the word. All the words which were frequent in Obama, in Bush and common in both were taken and their spacing was calculated so that they can be placed at a difference proportion to their frequency.
+The above plot shows the difference between the words said by Obama and Bush. The plot also shows the words which are common in both of their speeches. The size of the word is showing the freqeuncy of the word. All the words which were frequent in Obama, in Bush and common were subsetted and their spacing was calculated so that they can be placed according to their frequency.
 The color coding is preserved. The legend was arranged to save the space.
 
 ### PhraseNet -Obama(2014) ###
