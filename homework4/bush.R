@@ -1,8 +1,6 @@
 require(tm)        # corpus
 require(SnowballC) # stemming
 
-#TODO(deeksha): Remove this before submission
-setwd("/home/deeksha/github/msan622/homework4")
 
 sotu_source <- DirSource(
   # indicate directory

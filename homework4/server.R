@@ -51,10 +51,10 @@ loadData2 <- function() {
   #           grouping of word freqeuncies
   
   # Create separate data frames for each frequency type
-  obama.df<-subset(speeches.df, freq.dif > 10)   # Said more often by Obama
-  bush.df<-subset(speeches.df, freq.dif < -5)   # Said more often by bush
+  obama.df<-subset(speeches.df, freq.dif > 23)   # Said more often by Obama
+  bush.df<-subset(speeches.df, freq.dif < -12)   # Said more often by Bush
   
-  equal.df<-head(subset(speeches.df, freq.dif==0),30)  # Said equally
+  equal.df<-head(subset(speeches.df, freq.dif == 0),30)  # Said equally
   
   # This function takes some number as spaces and returns a vector
   # of continuous values for even spacing centered around zero
@@ -105,13 +105,13 @@ loadData2 <- function() {
 barplotData <- loadData1()
 clouddata <- loadData2()
 
-#returns a bubble plot
+#returns a bar plot
 getbarplot <- function(localFrame ) {
   
   
   pallette <- c("#FF0000","#006400") 
   p <- ggplot(localFrame, aes(x = word, y= freq, fill = name)) +geom_bar(stat="identity")+scale_fill_manual(values = pallette)
-  p<- p +ggtitle("State of the Union (Bush vs Obama)") 
+  p<- p + ggtitle("State of the Union (Bush vs Obama)") 
   p <- p + xlab("Top 10 Word Stems (Stop Words Removed)") +
     ylab("Frequency") 
  
@@ -121,13 +121,13 @@ getbarplot <- function(localFrame ) {
   p <- p + theme(axis.ticks = element_blank()) 
   p <- p + theme(title=element_text(size=15),
                legend.title=element_blank(),
-               #legend.text=element_text(size=16),
+              
                axis.title= element_text(size=15,face="bold"),
                text = element_text(colour="white",size=14,face="bold"))
   
   p <- p + theme(legend.background = element_blank())
-  p <- p+theme(panel.grid.major = element_line(color = "grey90"), panel.background = element_rect(fill = NA))
-  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black', size = 1))
+  p <- p + theme(panel.grid.major = element_line(color = "grey90"), panel.background = element_rect(fill = NA))
+  p <-p +theme(plot.background = element_rect(colour = 'black', fill = 'black', size = 1))
   p <- p + theme(legend.position = c(0.9, 0.9))
   
   return(p)
@@ -139,24 +139,24 @@ getWordCloud <- function(localFrame_cloud){
   bush.df <- subset(localFrame_cloud,localFrame_cloud$category == "bush")
   equal.df <- subset(localFrame_cloud,localFrame_cloud$category == "equal")
   
-  p <- ggplot(obama.df, aes(x=freq.dif, y=Spacing))+geom_text(aes(size=obama.txt, label=row.names(obama.df), colour=freq.dif))+
+  p <- ggplot(obama.df, aes(x=freq.dif, y=Spacing))+geom_text(aes(size=obama.txt, label=row.names(obama.df), color=freq.dif))+
     geom_text(data=bush.df, aes(x=freq.dif, y=Spacing, label=row.names(bush.df), size=bush.txt, color=freq.dif))+
     geom_text(data=equal.df, aes(x=freq.dif, y=Spacing, label=row.names(equal.df), size=obama.txt, color=freq.dif))+
-    scale_size(range=c(3,11), name="Word Frequency")+scale_colour_gradient(low="red", high="green", guide="none")+
+    scale_size(range=c(3,11), name="Word Frequency")+scale_colour_gradient(low="darkgreen", high="red", guide="none")+
     scale_x_continuous(breaks=c(min(bush.df$freq.dif),0,max(obama.df$freq.dif)),labels=c("Said More by Bush","Said Equally","Said More by Obama"))+
     scale_y_continuous(breaks=c(0),labels=c(""))+xlab("")+ylab("")+
     theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank())
- # p <- p + ggtitle("Obama vs Bush")
+ 
   p <- p + theme(axis.ticks = element_blank()) 
   
   p <- p+theme(title=element_text(size=15),
                
-               text=element_text(size=13,color="white",face="bold"),
+               text=element_text(size=15,color="white",face="bold"),
                axis.title= element_text(size=15,face="bold"))
   
   
   p <- p+theme(panel.background = element_rect(fill = NA))
-  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black', size = 1))
+  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black'))
   p <- p + theme(legend.position = c(0.9, 0.9))
   
   
@@ -232,7 +232,8 @@ shinyServer(function(input, output) {
   )
   
   output$wordCloud <- renderPlot(
-{ wordCloud <- getWordCloud(clouddata)
+{ 
+  wordCloud <- getWordCloud(clouddata)
   print(wordCloud)
 })
 
