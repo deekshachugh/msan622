@@ -1,14 +1,26 @@
-Homework [#]: [HOMEWORK NAME]
+Homework [4]: Text Data Visualization
 ==============================
 
-| **Name**  | [YOUR NAME]  |
+| **Name**  | Deeksha Chugh  |
 |----------:|:-------------|
-| **Email** | [USERNAME]@dons.usfca.edu |
+| **Email** | dchugh@dons.usfca.edu |
 
 ## Instructions ##
 
-[INSTRUCTIONS: Include instructions on how to run your code.]
+The following packages must be installed prior to running this code:
+
+library(tm)       
+library(SnowballC) 
+library(tm)
+library(ggplot2)
+library(shiny)
+
+To run this code, please enter the following commands in R:
+```
+library(shiny)
+shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework4')
+```
 
 ## Discussion ##
 
-[DISCUSSION: Include a discussion here if required by the assignment.]
+
