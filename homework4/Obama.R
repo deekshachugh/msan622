@@ -18,8 +18,8 @@ sotu_corpus <- Corpus(
     reader = readPlain, # read as plain text
     language = "en"))
  ##Inspect Corpus #####
- print(sotu_corpus)
- summary(sotu_corpus)
+# print(sotu_corpus)
+ #summary(sotu_corpus)
  #inspect(sotu_corpus)
  
 

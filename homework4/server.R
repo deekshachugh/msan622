@@ -106,27 +106,28 @@ barplotData <- loadData1()
 clouddata <- loadData2()
 
 #returns a bubble plot
-getbarplot <- function(localFrame, name ) {
+getbarplot <- function(localFrame ) {
   
-  localFrame <- subset(localFrame,localFrame$name == name )
   
-  p <- ggplot(localFrame, aes(x = word, y= freq, fill = name)) +geom_bar(stat="identity")
+  pallette <- c("#FF0000","#006400") 
+  p <- ggplot(localFrame, aes(x = word, y= freq, fill = name)) +geom_bar(stat="identity")+scale_fill_manual(values = pallette)
   p<- p +ggtitle("State of the Union (Bush vs Obama)") 
   p <- p + xlab("Top 10 Word Stems (Stop Words Removed)") +
     ylab("Frequency") 
-  
+ 
   p <- p + scale_x_discrete(expand = c(0, 0)) 
   p <- p + scale_y_continuous(expand = c(0, 0)) 
   p <- p + theme(panel.grid = element_blank()) 
   p <- p + theme(axis.ticks = element_blank()) 
-  p <- p+theme(title=element_text(size=15),
+  p <- p + theme(title=element_text(size=15),
                legend.title=element_blank(),
-               legend.text=element_text(size=16),
+               #legend.text=element_text(size=16),
                axis.title= element_text(size=15,face="bold"),
-               axis.text = element_text(colour="black",size=14))
+               text = element_text(colour="white",size=14,face="bold"))
   
+  p <- p + theme(legend.background = element_blank())
   p <- p+theme(panel.grid.major = element_line(color = "grey90"), panel.background = element_rect(fill = NA))
-  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'white', size = 1))
+  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black', size = 1))
   p <- p + theme(legend.position = c(0.9, 0.9))
   
   return(p)
@@ -145,12 +146,12 @@ getWordCloud <- function(localFrame_cloud){
     scale_x_continuous(breaks=c(min(bush.df$freq.dif),0,max(obama.df$freq.dif)),labels=c("Said More by Bush","Said Equally","Said More by Obama"))+
     scale_y_continuous(breaks=c(0),labels=c(""))+xlab("")+ylab("")+
     theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank())
-  p <- p + ggtitle("Obama vs Bush")
+ # p <- p + ggtitle("Obama vs Bush")
   p <- p + theme(axis.ticks = element_blank()) 
   
   p <- p+theme(title=element_text(size=15),
                
-               text=element_text(size=13,color="white"),
+               text=element_text(size=13,color="white",face="bold"),
                axis.title= element_text(size=15,face="bold"))
   
   
@@ -166,16 +167,66 @@ getWordCloud <- function(localFrame_cloud){
 return(p)
 }
 
+getfreqplot<- function(localFrame)
+{
+  source("Obama.R")
+  freq_df <- data.frame(
+    sotu2013 = sotu_matrix[, "Obama2013.txt"],
+    sotu2014 = sotu_matrix[, "Obama2014.txt"],
+    stringsAsFactors = FALSE)
+  
+  rownames(freq_df) <- rownames(sotu_matrix)
+  
+  
+  freq_df <- freq_df[order(
+    rowSums(freq_df), 
+    decreasing = TRUE),]
+  
+  freq_df <- head(freq_df, 20)
+  
+  p <- ggplot(freq_df, aes(sotu2013, sotu2014))
+  
+  p <- p + geom_text(
+    label = rownames(freq_df),
+    position = position_jitter(
+      width = 2,
+      height = 2),color="red", size = 10)
+  
+  p <- p + xlab("Frequency of Words - 2013") + ylab("Frequency of Words - 2014")
+  p <- p + ggtitle("Obama (2014 vs 2013)")
+  p <- p + theme(axis.line = element_line(colour = "white"),
+                 panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  
+  
+  
+ # p <- p + coord_fixed(
+  #  ratio = 5/6, 
+   # xlim = c(0, 50),
+  #  ylim = c(0, 50))
+  
+  p <- p+theme(title=element_text(size=15),
+               legend.title=element_blank(),
+               #legend.text=element_text(size=16),
+               axis.title= element_text(size=15,face="bold"),
+               text = element_text(colour="white",size=14,face="bold"))
+  
+  p <- p + theme(legend.background = element_blank())
+  p <- p+theme( panel.background = element_rect(fill = NA))
+  p <-  p +theme(plot.background = element_rect(colour = 'black', fill = 'black', size = 1))
+  p <- p + theme(legend.position = c(0.9, 0.9))
+  return(p)
+}
+
 
 shinyServer(function(input, output) {
   
   cat("Press \"ESC\" to exit...\n")
   
-  localFrame_bar <- barplotData
+  localFrame <- barplotData
   localFrame_cloud <- clouddata
  
   output$barPlot <- renderPlot(
-{ barPlot <- getbarplot(localFrame_bar, input$name)
+{ barPlot <- getbarplot(localFrame)
   print(barPlot)
 }
   )
@@ -184,5 +235,11 @@ shinyServer(function(input, output) {
 { wordCloud <- getWordCloud(clouddata)
   print(wordCloud)
 })
+
+output$freqplot <- renderPlot(
+{ freqplot <- getfreqplot(localFrame)
+  print(freqplot)
+})
+
 })
 

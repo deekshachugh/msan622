@@ -25,7 +25,7 @@ sotu_corpus <- Corpus(
 
 # Transform Corpus #####
 
-getTransformations()
+#getTransformations()
 # sotu_corpus[[1]][3]
 #stemDocument(sotu_corpus[[1]])
 sotu_corpus <- tm_map(sotu_corpus, tolower)
