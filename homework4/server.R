@@ -29,7 +29,8 @@ loadData1 <- function() {
 }
 
 loadData2 <- function() {
-  speeches<-Corpus(DirSource("data"))
+  speeches<-Corpus(DirSource(directory = file.path("data")))
+  
   #head(speeches)
   # Get word counts
   obama.wc<-length(unlist(strsplit(speeches[[1]], " ")))
