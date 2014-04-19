@@ -146,7 +146,7 @@ getWordCloud <- function(localFrame_cloud){
     scale_x_continuous(breaks=c(min(bush.df$freq.dif),0,max(obama.df$freq.dif)),labels=c("Said More by Bush","Said Equally","Said More by Obama"))+
     scale_y_continuous(breaks=c(0),labels=c(""))+xlab("")+ylab("")+
     theme(panel.grid.major=element_blank(),panel.grid.minor=element_blank())
- 
+  
   p <- p + theme(axis.ticks = element_blank()) 
   
   p <- p+theme(title=element_text(size=15),
@@ -160,7 +160,7 @@ getWordCloud <- function(localFrame_cloud){
   p <- p + theme(legend.position = c(0.9, 0.9))
   
   
-  
+    
   p <- p + theme(legend.background = element_blank())
   
   
