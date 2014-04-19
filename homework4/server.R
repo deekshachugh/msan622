@@ -29,8 +29,7 @@ loadData1 <- function() {
 }
 
 loadData2 <- function() {
-  speeches<-Corpus(DirSource(directory = file.path("data")))
-  
+  speeches<-Corpus(DirSource("data"))
   #head(speeches)
   # Get word counts
   obama.wc<-length(unlist(strsplit(speeches[[1]], " ")))
@@ -234,7 +233,7 @@ shinyServer(function(input, output) {
   
   output$wordCloud <- renderPlot(
 { 
-  wordCloud <- getWordCloud(clouddata)
+  wordCloud <- getWordCloud(localFrame_cloud)
   print(wordCloud)
 })
 
