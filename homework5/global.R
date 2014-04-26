@@ -176,7 +176,7 @@ plotMultiPlot<- function(start = 1969, num = 12)
   p <- p + geom_line(alpha = 1)
   p <- p + scale_months()
   #p <- p + scale_deaths()
-  
+  p <- p + coord_polar()
   p <- p + theme_guide()
   
   p <- p + facet_wrap(~ year, ncol = 4)
@@ -187,8 +187,10 @@ plotMultiPlot<- function(start = 1969, num = 12)
   p <- p + theme( panel.background = element_rect(fill = NA))  
   p <- p + ggtitle("Van Drivers Killed (1969-1984)")
   p <- p + ylab("Number of Deaths")
+  p <- p + theme(axis.title.x=element_blank())
+  
   
   return(p)
   
 }
-#plotMultiPlot()
+

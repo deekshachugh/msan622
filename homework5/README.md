@@ -1,4 +1,4 @@
-Homework [5]: Temporal Data Visualization
+Homework [5]: Time Series Visualization
 ==============================
 
 | **Name**  | Deeksha Chugh  |
@@ -6,9 +6,22 @@ Homework [5]: Temporal Data Visualization
 | **Email** | dchugh@dons.usfca.edu |
 
 ## Instructions ##
+The following packages must be installed prior to running this code:
+```
 
-[INSTRUCTIONS: Include instructions on how to run your code.]
-
+library(reshape) 
+library(scales) 
+library(ggplot2)
+library(shiny)
+library(grid)       
+```
+To run this code, please enter the following commands in R:
+```
+library(shiny)
+shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework5')
+```
 ## Discussion ##
 
-[DISCUSSION: Include a discussion here if required by the assignment.]
+![IMAGE](Overview.png)
+![IMAGE](heatmap.png)
+![IMAGE](starplot.png)

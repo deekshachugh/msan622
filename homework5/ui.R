@@ -25,7 +25,7 @@ shinyUI(fluidPage(
         ticks = TRUE,
         format = "####.##",
         animate = animationOptions(
-          interval = 2000, 
+          interval = 2500, 
           loop = TRUE
         )
       ),
@@ -48,13 +48,13 @@ shinyUI(fluidPage(
         tabPanel("Car Drivers Killed",
                  plotOutput(
                    outputId = "circlePlot", 
-                   width = 700, 
+                   width = 800, 
                    height = 550
                  )),
         tabPanel("Van Drivers Killed",
                  plotOutput(
                    outputId = "multiPlot", 
-                   width = 700, 
+                   width = 800, 
                    height = 550
                  ))
         
