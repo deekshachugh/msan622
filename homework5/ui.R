@@ -36,7 +36,7 @@ shinyUI(fluidPage(
     
     mainPanel(
       tabsetPanel(
-        tabPanel("UK Drivers Deaths", plotOutput(
+        tabPanel("Deaths", plotOutput(
           outputId = "mainPlot", 
           width = "100%", 
           height = "400px"
