@@ -1,9 +1,9 @@
-Homework [#]: [HOMEWORK NAME]
+Homework [5]: Temporal Data Visualization
 ==============================
 
-| **Name**  | [YOUR NAME]  |
+| **Name**  | Deeksha Chugh  |
 |----------:|:-------------|
-| **Email** | [USERNAME]@dons.usfca.edu |
+| **Email** | dchugh@dons.usfca.edu |
 
 ## Instructions ##
 
