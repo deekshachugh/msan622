@@ -140,10 +140,8 @@ plotCircleplot <- function(start = 1969, num = 12){
   
   #p <- p + coord_polar()
  
-  p <- p +   scale_fill_gradientn(
-    colours = brewer_pal(
-      type = "div", 
-      palette = "RdGy")(5),
+  p <- p + scale_fill_gradientn(
+    colours = rev(rainbow(2)),
     
     limits = c(0, 200),
     breaks = c(0, 100, 200)
