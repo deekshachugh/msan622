@@ -21,16 +21,16 @@ shiny::runGitHub('msan622', 'deekshachugh', subdir = 'homework5')
 ```
 ## Discussion ##
 
-###Deaths###
+###UK driver deaths###
 
 ![IMAGE](Overview.png)
 
 The above plot shows the number of total driver deaths, front-seat passengers killed or seriously injured, and rear-seat passengers killed or seriously injured. The plot shows the sharp decline in number of deaths of front seat passengers after the law was introduced in 1983; however there is no effect on the number of deaths of back seat passengers.
 
 The plot has two components. The upper part of the graph is the zoomed in version of the overview plot under it. The overview plot is a multiline plot showing the number of deaths. It also has an arrow which points to the time period when the seat belt law in UK was introduced. I changed the axes color to black and increased its size to increase readibility. The legend of the plot is moved on to the top of the plot to save space.
-```
-Interactivity
-```
+
+#####Interactivity#####
+
 On the left side of the panel, you can play the starting point slider to see animated view over all the years. You could also select the number of months you want to view at any time.
 
 ###Car drivers killed###
