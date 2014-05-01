@@ -18,4 +18,4 @@ In this image, I am showing the daily temperature and overview of the total two 
 Here is the prototype of my shiny application:
 ![IMAGE](prototype.png)
 
-The prototype has the dropdown for various citites along with a slider to select which year and how many months the user want to look at a given time.
+The prototype has the dropdown for various citites along with a slider to select which year and how many months the user want to look at a given time. I also want to add the filters for other weather variables but I am not sure how it will look on multiline plot. 

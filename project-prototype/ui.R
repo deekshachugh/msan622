@@ -45,7 +45,10 @@ shinyUI(fluidPage(
           outputId = "overviewPlot",
           width = "100%",
           height = "200px"
-        ),width = 9)
+        ),width = 9),
+        tabPanel("HeatMap"),
+        tabPanel("Parallel Coordinates"),
+        tabPanel("Small Multiple")
         
       )  
     )
