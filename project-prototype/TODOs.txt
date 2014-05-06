@@ -1,0 +1,7 @@
+TODOS:
+1. On all pages, get rid of the Error: object of type 'closure' is not subsettable
+2. In global.R, in plotmap, remove the "variable" with an appropriate label.
+   Previously, it was variable (without quotes) but it was giving an error.
+3. On the "Daily temperature overview" tab, the "Starting Point" year is having no effect.
+   That's because the 'start' argument isn't being used.
+4. Make the play button work on "Daily temperature overview" tab.

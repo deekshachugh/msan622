@@ -1,57 +1,81 @@
+library(shiny)
 
-shinyUI(fluidPage(
-  
-  titlePanel("Weather Report"),
-  
-  sidebarLayout(
-    sidebarPanel(
-      selectInput( "City", "City", c("New York","San Francisco"),selected = c("New York")),
-      sliderInput(
-        "num", 
-        "Months:", 
-        min = 4, 
-        max = 24,
-        value = 12, 
-        step = 1
-      ),
-      
-      sliderInput(
-        "start", 
-        "Starting Point:",
-        min =  2011, 
-        max =  2013,
-        value = 2011, 
-        step = 1 ,
-        round = FALSE, 
-        ticks = TRUE,
-        format = "####.##",
-        animate = animationOptions(
-          interval = 2500, 
-          loop = TRUE
-        )
-      ),
-      
-      width = 3)
-    
-    ,
-    
-    mainPanel(
-      tabsetPanel(
-        tabPanel("Daily Temperature Overview", plotOutput(
-          outputId = "mainPlot", 
-          width = "100%", 
-          height = "400px"
-        ),plotOutput(
-          outputId = "overviewPlot",
-          width = "100%",
-          height = "200px"
-        ),width = 9),
-        tabPanel("HeatMap"),
-        tabPanel("Parallel Coordinates"),
-        tabPanel("Small Multiple")
-        
-      )  
-    )
-    
-  )
-))
+shinyUI(
+  navbarPage(
+    "Weather Analysis",
+    tabPanel(
+      "Daily temperature Overview",
+      sidebarLayout(
+        sidebarPanel(
+          selectizeInput("dailyTemperatureCity", "City", choices = unique(molten$City)),
+          sliderInput(
+            "months",
+            "Number of months",
+            min = 4,
+            max = 24,
+            value = 12,
+            step = 1
+          ),
+          br(),
+          sliderInput(
+            "startYear",
+            "Starting point",
+            min =  2011,
+            max =  2013,
+            value = 2011,
+            step = 0.1 ,
+            round = FALSE,
+            ticks = TRUE,
+            format = "####.##",
+            animate = animationOptions(
+              interval = 2500,
+              loop = TRUE
+            )
+          ),
+          uiOutput("dailyTemperatureOverview")
+        ), # end of sidebarPanel
+        mainPanel(
+          plotOutput(
+            outputId = "mainPlot"
+          ),
+          plotOutput(
+            outputId = "overviewPlot"
+          )
+        ) # end of main panel
+      ) # end of sidebarLayout
+    ), # end of tabpanel
+    tabPanel(
+      "Rainfall",
+      sidebarLayout(
+        sidebarPanel(
+          selectizeInput("rainfallCity", "City", choices = unique(molten$City)),
+          uiOutput("rainfallOutput")
+        ), # end of sidebarPanel
+        mainPanel(
+          plotOutput(
+            outputId = "barPlot"
+          )
+        ) # end of main panel
+      ) # end of sidebarLayout
+    ), # end of tabpanel
+    tabPanel(
+      "Map Plot",
+      sidebarLayout(
+        sidebarPanel(
+          selectizeInput("mapPlotDate", "Date", choices = unique(molten$Date)),
+          radioButtons(
+            "mapPlotVariable", "Variables:", c(
+              "Temperature", "Dew.Point.Temperature", "Precipitation",
+              "Humidity", "Wind.Speed", "Percent.Cloud.Cover"),
+            selected = "Temperature"),
+          uiOutput("mapPlotOutput")
+        ), # end of sidebarPanel
+        mainPanel(
+          plotOutput(
+            outputId = "mapPlot"
+          )
+        ) # end of main panel
+      ) # end of sidebarLayout
+    ) # end of tabpanel
+  ) # end of navbarPage
+) # end of shinyUI
