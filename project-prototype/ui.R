@@ -1,81 +1,30 @@
-library(shiny)
-
 shinyUI(
   navbarPage(
-    "Weather Analysis",
-    tabPanel(
-      "Daily temperature Overview",
-      sidebarLayout(
-        sidebarPanel(
-          selectizeInput("dailyTemperatureCity", "City", choices = unique(molten$City)),
-          sliderInput(
-            "months",
-            "Number of months",
-            min = 4,
-            max = 24,
-            value = 12,
-            step = 1
-          ),
-          br(),
-          sliderInput(
-            "startYear",
-            "Starting point",
-            min =  2011,
-            max =  2013,
-            value = 2011,
-            step = 0.1 ,
-            round = FALSE,
-            ticks = TRUE,
-            format = "####.##",
-            animate = animationOptions(
-              interval = 2500,
-              loop = TRUE
-            )
-          ),
-          uiOutput("dailyTemperatureOverview")
-        ), # end of sidebarPanel
-        mainPanel(
-          plotOutput(
-            outputId = "mainPlot"
-          ),
-          plotOutput(
-            outputId = "overviewPlot"
-          )
-        ) # end of main panel
-      ) # end of sidebarLayout
-    ), # end of tabpanel
-    tabPanel(
-      "Rainfall",
-      sidebarLayout(
-        sidebarPanel(
-          selectizeInput("rainfallCity", "City", choices = unique(molten$City)),
-          uiOutput("rainfallOutput")
-        ), # end of sidebarPanel
-        mainPanel(
-          plotOutput(
-            outputId = "barPlot"
-          )
-        ) # end of main panel
-      ) # end of sidebarLayout
-    ), # end of tabpanel
+    "Weather Report",
+    # Tab 1 : Bar Plot Layout
     tabPanel(
       "Map Plot",
-      sidebarLayout(
-        sidebarPanel(
+      fluidRow(
+        column(
+          width = 3,
           selectizeInput("mapPlotDate", "Date", choices = unique(molten$Date)),
           radioButtons(
             "mapPlotVariable", "Variables:", c(
-              "Temperature", "Dew.Point.Temperature", "Precipitation",
-              "Humidity", "Wind.Speed", "Percent.Cloud.Cover"),
-            selected = "Temperature"),
-          uiOutput("mapPlotOutput")
-        ), # end of sidebarPanel
-        mainPanel(
+              'Temperature', 'Dew.Point.Temperature',
+              'Humidity', 'Wind.Speed', 'Percent.Cloud.Cover'),
+            selected = 'Temperature')),
+        column(
+          width = 9,
           plotOutput(
-            outputId = "mapPlot"
-          )
-        ) # end of main panel
-      ) # end of sidebarLayout
-    ) # end of tabpanel
-  ) # end of navbarPage
-) # end of shinyUI
+            "mapPlot",
+            height = 550)
+        )
+      )
+      #tabPanel("Data")
+      #column(6,tabPanel("Bar Plot",plotOutput("bar_plot1",height='100%',width='100%') )),
+      #column(6,tabPanel("Bar Plot",plotOutput("bar_plot2",height='100%',width='100%') ))
+      #plotOutput("mapPlot",height='100%',width='100
+    )#end of tabpanel
+    )#end of navbarpage
+  )#end of shinyUI
+  

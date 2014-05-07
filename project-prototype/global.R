@@ -2,8 +2,13 @@ library(ggplot2)
 library(ggmap)
 library(maps)
 
-data <- read.csv("weatherdata.csv")
+data <- read.csv("/home/deeksha/github/msan622/project-prototype/weatherdata.csv")
+
 data <- data[,2:ncol(data)]
+data[,4] <- round(as.numeric(levels(data[,4]))[data[,4]],1)
+data[,5] <- round(as.numeric(levels(data[,5]))[data[,5]],1)
+data[,6] <- round(as.numeric(levels(data[,6]))[data[,6]],1)
+data[,7] <- round(as.numeric(levels(data[,7]))[data[,7]],1)
 data$Date <- as.character(data$Date)
 data$Date <- as.Date(data$Date,"%Y%m%d")
 
@@ -14,6 +19,7 @@ data$year <- format(data$Date, "%Y")
 
 molten <- melt(data, id = c("year", "month", "Date", "City", "CityCode",
                             "Latitude", "Longitude"))
+molten$value <- round(as.numeric(molten$value),1)
 
 plotOverview <- function(start = as.Date("2011-03-01","%Y-%m-%d"),
                          num = 30,
@@ -126,29 +132,34 @@ plotbar <- function(city){
   return(p)
 }
 
-head(molten)
 
 
-plotmap <- function(date = "2012-07-21", variable = "Temperature") {
+
+plotmap <- function(date = "2012-01-21", variable = 'Temperature') {
   # Load us map data
+  print(c(date, variable))
+  #browser()
   all_states <- map_data("state")
   p <- ggplot()
   p <- p + geom_polygon(data = all_states,
                         aes(x = long, y = lat, group = group),
-                        colour = "black", fill = "yellow")
+                        fill = "grey",color="black")
   subdata <- subset(data, data$Date == date)
-  subdata$Temperature <- paste(subdata$Temperature, "F", sep = " ")
-  p <- p + geom_point(data = subdata,aes(x = Longitude, y = Latitude),
-                      color = "red")
-  browser()
-  p <- p + geom_text(data = subdata, hjust = 0.9, vjust = 0.9, aes(
-    x = Longitude, y = Latitude, label = "variable"), colour = "black",
-    size = 4)
-  #p <- p + geom_text(data = subdata, hjust = 0, vjust = 0, aes(
-  #  x = Longitude, y = Latitude, label = CityCode), colour = "black", size = 4)
-  p <- p + ggtitle("Airport Overview")
-  #p <- p + theme(plot.background = element_rect(
-  #  colour = "black", fill = "black", size = 1))
+  #subdata$Temperature <- paste(subdata$Temperature, "F", sep = " ")
+  p <- p + geom_point(data = subdata,aes_string(x = "Longitude", y = "Latitude",color= variable),size=10
+                      )
+  #browser()
+ # p <- p + geom_text(data = subdata, hjust = -0.9, vjust = 0.9, aes_string(
+#    x = "Longitude", y = "Latitude", label = variable), colour = "black",
+#    size = 5)
+  
+  p <- p + ggtitle("United States Overview")
+  p <- p + theme(axis.title = element_blank())
+  p <- p + theme(axis.ticks = element_blank())
+  p <- p + theme(axis.text = element_blank())
+  p <- p + theme(panel.grid = element_blank())
+  p <- p + theme(panel.background = element_rect(fill= 'black'))
+  p <- p + scale_color_gradient(low="yellow", high = 'red', guide = guide_colorbar(direction = "vertical"))
   return(p)
 }
-#plotmap("2012-07-21")
+#plotmap()
