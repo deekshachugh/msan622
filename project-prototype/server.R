@@ -7,10 +7,18 @@ shinyServer(function(input, output) {
     #print(ggplot(mtcars,aes(wt,mpg))+geom_point())
     print(plotmap(input$mapPlotDate, input$mapPlotVariable))
   })
-  output$bar <- renderPlot({
+  output$barPlot <- renderPlot({
     
-    print(plotbar())
+    print(plotbar(input$rainfallCity))
   })
   
+  output$overviewPlot <- renderPlot({
+    
+    print(plotOverview(input$dateRange, input$dailyTemperatureCity))
+  })
+  output$modelingPlot <- renderPlot({
+    
+    print(modelPlot(input$predictCity))
+  })
   
 })
