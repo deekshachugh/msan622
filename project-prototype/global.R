@@ -1,23 +1,25 @@
 library(ggplot2)
 library(ggmap)
 library(maps)
+library(randomForest)
 
-data <- read.csv("/home/deeksha/github/msan622/project-prototype/weatherdata.csv")
-
-data <- data[,2:ncol(data)]
-data[,4] <- round(as.numeric(levels(data[,4]))[data[,4]],1)
-data[,5] <- round(as.numeric(levels(data[,5]))[data[,5]],1)
-data[,6] <- round(as.numeric(levels(data[,6]))[data[,6]],1)
-data[,7] <- round(as.numeric(levels(data[,7]))[data[,7]],1)
-data$Date <- as.character(data$Date)
-data$Date <- as.Date(data$Date,"%Y%m%d")
+weather_data <- read.csv("weatherdata.csv",row.names=NULL)
+head(weather_data)
+weather_data <- weather_data[,2:ncol(weather_data)]
+#str(weather_data)
+weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
+weather_data[,5] <- round(as.numeric(levels(weather_data[,5]))[weather_data[,5]],1)
+weather_data[,6] <- round(as.numeric(levels(weather_data[,6]))[weather_data[,6]],1)
+weather_data[,7] <- round(as.numeric(levels(weather_data[,7]))[weather_data[,7]],1)
+weather_data$Date <- as.character(weather_data$Date)
+weather_data$Date <- as.Date(weather_data$Date,"%Y%m%d")
 
 require(reshape2) # melt
-data$month <- format(data$Date,"%b")
-data$year <- format(data$Date, "%Y")
+weather_data$month <- format(weather_data$Date,"%b")
+weather_data$year <- format(weather_data$Date, "%Y")
 
 
-molten <- melt(data, id = c("year", "month", "Date", "City", "CityCode",
+molten <- melt(weather_data, id = c("year", "month", "Date", "City", "CityCode",
                             "Latitude", "Longitude"))
 molten$value <- round(as.numeric(molten$value),1)
 
@@ -104,7 +106,7 @@ plotbar <- function(city = "Houston,Tx"){
 #plotbar("Houston,Tx")
 
 
-plotmap <- function(date = "2012-01-21", variable = 'Temperature') {
+plotmap <- function(date = "2012-01-21", variable = "Temperature") {
   # Load us map data
   
   #browser()
@@ -113,45 +115,50 @@ plotmap <- function(date = "2012-01-21", variable = 'Temperature') {
   p <- p + geom_polygon(data = all_states,
                         aes(x = long, y = lat, group = group),
                         fill = "black",color="white")
-  subdata <- subset(data, data$Date == date)
+  subdata <- subset(weather_data, weather_data$Date == date)
   #subdata$Temperature <- paste(subdata$Temperature, "F", sep = " ")
-  p <- p + geom_point(data = subdata,aes_string(x = "Longitude", y = "Latitude",color= variable),size=9
+  p <- p + geom_point(data = subdata,
+                      aes_string(x = "Longitude",
+                                 y = "Latitude",
+                                 color= variable),
+                      size=9,
+                      alpha = 0.8
   )
   #browser()
   # p <- p + geom_text(data = subdata, hjust = -0.9, vjust = 0.9, aes_string(
   #    x = "Longitude", y = "Latitude", label = variable), colour = "black",
   #    size = 5)
   
-  p <- p + ggtitle("United States Overview - 50 citites")
+  p <- p + ggtitle("United States Overview - 54 citites")
   p <- p + theme(plot.title=element_text(family="Times", face="bold", size=20))
   p <- p + theme(axis.title = element_blank())
   p <- p + theme(axis.ticks = element_blank())
   p <- p + theme(axis.text = element_blank())
   p <- p + theme(panel.grid = element_blank())
-  p <- p + theme(panel.background = element_rect(fill = 'white'))
+  p <- p + theme(panel.background = element_rect(fill = "white"))
   p <- p + theme(legend.title = element_text(size = 12))
   p <- p + theme(legend.position = c(0.2, 0.2))
   
   if(variable == "Temperature"){
-    p <- p + scale_color_gradient(low="yellow", high = 'red')       
+    p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Humidity"){
-    p <- p + scale_color_gradient(low="white", high = 'lightblue')
+    p <- p + scale_color_gradient(low = "lightblue", high = "blue")
   } else if(variable == "Dew.Point.Temperature"){
-    p <- p + scale_color_gradient(low="yellow", high = 'red')       
+    p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Percent.Cloud.Cover"){
-    p <- p + scale_color_gradient(high="#4D4D4D", low = 'lightblue')    
+    p <- p + scale_color_gradient(low = "lightblue", high = "blue")    
   } else if(variable == "Wind.Speed"){
-    p <- p + scale_color_gradient(low="grey", high = 'blue')       
+    p <- p + scale_color_gradient(low="grey", high = "blue")       
   }
   p <- p + theme(legend.direction = "horizontal")
   return(p)
 }
-#plotmap(date = "2012-01-21", variable = 'Humidity')
+plotmap(date = "2012-07-21", variable = "Humidity")
 
 
 modelPlot <- function(city = "Houston,Tx")
 {
-  citydata<- subset(data, City == city)
+  citydata<- subset(weather_data, City == city)
   
   subcitydata <- citydata[366:nrow(citydata),]
   last_year_temp <- citydata$Temperature[1:727]
