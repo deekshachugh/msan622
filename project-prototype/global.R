@@ -5,14 +5,11 @@ library(randomForest)
 library(RCurl)
 library(GGally)
 
-#library(tm)
-#source(DirSource(directory=file.path("data")))
-#weather_data <- read.csv("/data/weatherdata.csv")
-#x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
-weather_data <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
-#head(weather_data)
+x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
+weather_data <- read.csv(text = x)
+
 weather_data <- weather_data[,2:ncol(weather_data)]
-#str(weather_data)
+
 weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
 weather_data[,5] <- round(as.numeric(levels(weather_data[,5]))[weather_data[,5]],1)
 weather_data[,6] <- round(as.numeric(levels(weather_data[,6]))[weather_data[,6]],1)
