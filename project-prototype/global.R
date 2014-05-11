@@ -4,11 +4,11 @@ library(maps)
 library(randomForest)
 library(RCurl)
 library(GGally)
-
-x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
+x <- getURL("http://aawc.github.io/d/weatherdata.csv")
+#x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
 weather_data <- read.csv(text = x)
-
-weather_data <- weather_data[,2:ncol(weather_data)]
+#weatherdata <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
+weather_data <- weatherdata[,2:ncol(weatherdata)]
 
 weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
 weather_data[,5] <- round(as.numeric(levels(weather_data[,5]))[weather_data[,5]],1)
@@ -145,7 +145,7 @@ plotmap <- function(date = "2012-01-21", variable = "Temperature") {
   if(variable == "Temperature"){
     p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Humidity"){
-    p <- p + scale_color_gradient(low = "lightblue", high = "blue")
+    p <- p + scale_color_gradient(low = "grey", high = "blue")
   } else if(variable == "Dew.Point.Temperature"){
     p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Percent.Cloud.Cover"){
