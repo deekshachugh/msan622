@@ -16,6 +16,10 @@ shinyServer(function(input, output) {
     
     print(plotOverview(input$dateRange, input$dailyTemperatureCity))
   })
+  output$patternPlot <- renderPlot({
+    
+    print(parallelPlot(input$parallelCity,input$Season))
+  })
   output$modelingPlot <- renderPlot({
     
     print(modelPlot(input$predictCity))

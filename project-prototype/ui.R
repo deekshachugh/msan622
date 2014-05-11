@@ -26,21 +26,7 @@ shinyUI(
       #plotOutput("mapPlot",height='100%',width='100
     )#end of tabpanel
     ,
-    tabPanel(
-      "Precipitation",
-      fluidRow(
-        column(
-          width = 3,
-          selectizeInput("rainfallCity", "City", choices = unique(molten$City))
-          ),
-        column(
-          width = 9,
-          plotOutput(
-            "barPlot",
-            height = 550)
-        )
-      )# end of fluid row
-    ),# end of tabpanel
+    
     tabPanel(
       "Daily Temperature Overview",
       fluidRow(
@@ -67,6 +53,45 @@ shinyUI(
         )
       )# end of fluid row
     ),# end of tabpanel
+    tabPanel(
+      "Precipitation",
+      fluidRow(
+        column(
+          width = 3,
+          selectizeInput("rainfallCity", "City", choices = unique(molten$City))
+        ),
+        column(
+          width = 9,
+          plotOutput(
+            "barPlot",
+            height = 550)
+        )
+      )# end of fluid row
+    ),# end of tabpanel
+    tabPanel(
+      "Seasonal Overview",
+      fluidRow(
+        column(
+          width = 3,
+          selectizeInput("parallelCity", "City", choices = unique(molten$City)),
+          checkboxGroupInput(
+            "Season", "Season:", c(
+              'Summer', 'Winter',
+              'Spring', 'Autumn'),
+            selected = c('Summer', 'Winter',
+            'Spring', 'Autumn'))
+        ),
+        column(
+          width = 9,
+          
+          plotOutput(
+            outputId = "patternPlot",height = 550
+          )
+        )
+        
+      )# end of fluid row
+    )# end of tabpanel
+    ,
     tabPanel(
       "Temperature Prediction",
       fluidRow(

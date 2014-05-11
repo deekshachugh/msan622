@@ -2,9 +2,15 @@ library(ggplot2)
 library(ggmap)
 library(maps)
 library(randomForest)
+library(RCurl)
+library(GGally)
 
-weather_data <- read.csv("weatherdata.csv",row.names=NULL)
-head(weather_data)
+#library(tm)
+#source(DirSource(directory=file.path("data")))
+#weather_data <- read.csv("/data/weatherdata.csv")
+#x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
+weather_data <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
+#head(weather_data)
 weather_data <- weather_data[,2:ncol(weather_data)]
 #str(weather_data)
 weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
@@ -21,7 +27,7 @@ weather_data$year <- format(weather_data$Date, "%Y")
 
 molten <- melt(weather_data, id = c("year", "month", "Date", "City", "CityCode",
                             "Latitude", "Longitude"))
-molten$value <- round(as.numeric(molten$value),1)
+molten$value <- round(as.numeric(molten$value),2)
 
 plotOverview <- function(dateRange = c(as.Date("2011-03-01","%Y-%m-%d"),
                          as.Date("2014-01-31","%Y-%m-%d")),
@@ -166,10 +172,10 @@ modelPlot <- function(city = "Houston,Tx")
   lagged_data <- data.frame(subcitydata,last_year_temp)
   
   model <- randomForest(Temperature~last_year_temp+ Dew.Point.Temperature+Precipitation+Humidity+Percent.Cloud.Cover, data= lagged_data)
-  predicted <- predict(model)
-  actual <- lagged_data$Temperature
+  predicted_temperature <- predict(model)
+  actual_temperature <- lagged_data$Temperature
   
-  modeldata <- data.frame(lagged_data$Date, actual, predicted)
+  modeldata <- data.frame(lagged_data$Date, actual_temperature, predicted_temperature)
   model_data <- melt(modeldata,id="lagged_data.Date")
   p <- ggplot(data = model_data ) + geom_line(aes(x= lagged_data.Date,y = value,color=variable))
   
@@ -197,3 +203,88 @@ modelPlot <- function(city = "Houston,Tx")
   return(p)
 }
 #modelPlot("Houston,Tx")
+
+parallelPlot <- function(city = "Houston,Tx", season1 = "Summer"){
+  city_data <- subset(weather_data, City ==city)
+  year_data <- subset(city_data, year =="2013")
+  
+  year_data$season<-ifelse(year_data$month %in% c("Mar","Apr","May"),"Spring",
+                           ifelse(year_data$month %in% c("Jun","Jul","Aug"),"Summer",
+                                  ifelse(year_data$month %in% c("Sep","Oct","Nov"),"Autumn",
+                                         ifelse(year_data$month %in% c("Dec","Jan","Feb"),"Winter",""))))
+  year_data$season <- as.factor(year_data$season)
+  p <- ggparcoord(data = year_data, 
+                  columns = c(2,3,5,7),
+                  groupColumn =ncol(year_data),
+                  scale = "uniminmax",
+                  order = c(2,3,5,7),showPoints = FALSE, alphaLines = 1,
+                  shadeBox = NULL) 
+  factor_season <- c("Autumn","Spring","Summer","Winter")
+  palette <- c("#E41A1C", "#377EB8", "#4DAF4A" ,"#984EA3")
+#   if(length(season1) == 0 | length(season1) == 4) {
+#     palette <- brewer_pal(type = "qual", palette = "Set1")(4)   
+#     p <- p + scale_color_manual(values = palette)
+#     
+#   } else {
+#     l <- length(season1)
+#     
+#     palette <- brewer_pal(type = "qual", palette = "Set1")(l)
+#     palette <- append(palette, c(rep("black",times=4-l)))
+#     p <- p + scale_color_manual(values = palette)
+#     }
+#  
+col <- data.frame(color = palette,factor_season)
+col$newcolor <- rep("d",times=4)
+for(i in 1:nrow(col)){
+  if(col[i,"factor_season"] %in% season1){
+   
+    d <- as.character(col[i,"color"])
+    col[i,"newcolor"] <- d
+    
+  }
+  else{
+   
+    col[i,"newcolor"] <-"grey"
+  }
+  
+}
+
+p <- p + scale_color_manual(values = col$newcolor)
+  
+p <- p + ggtitle("Seasonal Trend - 2013")
+
+p <-p+theme(panel.grid.major = element_line(color = "grey90"),
+             panel.background = element_rect(fill = NA))  
+p <-p+theme(plot.background = element_rect(colour = 'black', 
+                                            fill = 'white', size = 1))
+  
+  p <- p + scale_y_continuous(expand = c(0.02, 0.02))
+  p <- p + scale_x_discrete(expand = c(0.02, 0.02))
+  # Remove axis ticks and labels
+  p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
+                 legend.background = element_rect(fill = "transparent"))
+  min_y <- min(p$data$value)
+  max_y <- max(p$data$value)
+  pad_y <- (max_y - min_y) * 0.1  
+  lab_x <- rep(1:4, times = 2)
+  lab_y <- rep(c(min_y - pad_y, max_y + pad_y), each = 4)
+  
+  # Get min and max values from original dataset
+  lab_z <- c(sapply(year_data[, c(2,3,5,7)], min), sapply(year_data[, c(2,3,5,7)], max))
+  # Convert to character for use as labels
+  lab_z <- as.character(lab_z)
+  # Add labels to plot
+  p <- p + annotate("text", x = lab_x, y = lab_y, label = lab_z, size = 5, color ="black")
+  p <- p + theme(text = element_text(colour="black",size=14))
+  
+  p <- p + theme(axis.title = element_blank())
+  
+  p <- p + theme(axis.text.y = element_blank())
+  # Clear axis lines
+  p <- p + theme(panel.grid.minor = element_blank())
+  p <- p + theme(panel.grid.major.y = element_blank())
+  # Darken vertical lines
+  p <- p + theme(panel.grid.major.x = element_line(color = "black"))
+  p
+  return(p)
+}
