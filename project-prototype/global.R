@@ -4,7 +4,7 @@ library(maps)
 library(randomForest)
 library(RCurl)
 library(GGally)
-x <- getURL("http://aawc.github.io/d/weatherdata.csv")
+x <- getURL("http://deekshachugh.github.io/misc/weatherdata.csv")
 #x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
 weather_data <- read.csv(text = x)
 #weatherdata <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
@@ -123,7 +123,7 @@ plotmap <- function(date = "2012-01-21", variable = "Temperature") {
   p <- p + geom_point(data = subdata,
                       aes_string(x = "Longitude",
                                  y = "Latitude",
-                                 color= variable),
+                                 color = variable),
                       size=9,
                       alpha = 0.8
   )
@@ -214,7 +214,6 @@ parallelPlot <- function(city = "Houston,Tx", season1 = "Summer"){
                   columns = c(2,3,5,7),
                   groupColumn =ncol(year_data),
                   scale = "uniminmax",
-                  order = c(2,3,5,7),showPoints = FALSE, alphaLines = 1,
                   shadeBox = NULL) 
   factor_season <- c("Autumn","Spring","Summer","Winter")
   palette <- c("#E41A1C", "#377EB8", "#4DAF4A" ,"#984EA3")
@@ -232,16 +231,19 @@ parallelPlot <- function(city = "Houston,Tx", season1 = "Summer"){
 #  
 col <- data.frame(color = palette,factor_season)
 col$newcolor <- rep("d",times=4)
+#col$aplha <-rep("d",times=4)
 for(i in 1:nrow(col)){
   if(col[i,"factor_season"] %in% season1){
    
     d <- as.character(col[i,"color"])
     col[i,"newcolor"] <- d
+    #col[i,"alpha"] <- 1
     
   }
   else{
    
-    col[i,"newcolor"] <-"grey"
+    col[i,"newcolor"] <- "grey"
+   # col[i,"alpha"] <- 0.2
   }
   
 }
