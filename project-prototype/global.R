@@ -6,7 +6,7 @@ library(RCurl)
 library(GGally)
 x <- getURL("http://deekshachugh.github.io/misc/weatherdata.csv")
 #x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
-weather_data <- read.csv(text = x)
+weatherdata <- read.csv(text = x)
 #weatherdata <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
 weather_data <- weatherdata[,2:ncol(weatherdata)]
 

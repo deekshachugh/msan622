@@ -61,12 +61,23 @@ Below is the graph showing the zoomed in version of the above plot.
 ###City Rainfall Overview ###
 ![IMAGE](Rainfall.png)
 
-This plot displays the average rainfall
+This plot displays the average rainfall of all the 54 citites along with the rainfall of a particular city for all the months in 2013. The light blue color is depicting the city rainfall and dark blue color is depicting the average rainfall.
 
+#####Interactivity#####
+The user can select any city for which they are interested in looking at the rainfall. 
 
 ### Seasonal Trend ###
 ![IMAGE](SeasonalTrend.png)
 
+The plot shows the seasonal trend of the city 
+
+#####Interactivity#####
+I used brushing to show a selected season in which user is interested. There are four seasons and the color is fixed for each of the color. If you want to see one season, you can de-select the others and it will become grey in color.
 
 ### Temperature Prediction  ###
 ![IMAGE](prediction.png)
+
+I used a random forest, a machine learning technique to make a model which can predict temperature. The plot shows the temperature as well as its predicted temperature by a multiline plot.
+
+#####Interactivity#####
+The user can select any city for which they are interested in temperature prediction.
