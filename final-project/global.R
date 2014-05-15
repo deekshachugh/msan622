@@ -8,7 +8,7 @@ x <- getURL("http://deekshachugh.github.io/misc/weatherdata.csv")
 #x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
 weatherdata <- read.csv(text = x)
 #weatherdata <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
-weather_data <- weatherdata[,2:ncol(weatherdata)]
+weather_data <- weatherdata[9:(nrow(weatherdata)-16),2:ncol(weatherdata)]
 
 weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
 weather_data[,5] <- round(as.numeric(levels(weather_data[,5]))[weather_data[,5]],1)
@@ -16,6 +16,10 @@ weather_data[,6] <- round(as.numeric(levels(weather_data[,6]))[weather_data[,6]]
 weather_data[,7] <- round(as.numeric(levels(weather_data[,7]))[weather_data[,7]],1)
 weather_data$Date <- as.character(weather_data$Date)
 weather_data$Date <- as.Date(weather_data$Date,"%Y%m%d")
+weather_data$City <- gsub(",\\w*","",weather_data$City)
+
+weather_data$City[weather_data$City=="NewYork(New)"] <- "NewYork"
+weather_data$City[weather_data$City=="SanFran"] <- "SanFrancisco"
 
 require(reshape2) # melt
 weather_data$month <- format(weather_data$Date,"%b")
@@ -34,19 +38,17 @@ plotOverview <- function(dateRange = c(as.Date("2011-03-01","%Y-%m-%d"),
     "Temperature","Dew.Point.Temperature"))
   
   
-  
-  
   p <- ggplot(citydata, aes(x = Date, y = as.numeric(value)))
   p <- p + geom_line(data = tempdata,
                      aes(group = variable, color = variable))
   p <- p + xlab("Date") +ylab("In Fahrenheit")
+  p <- p + scale_color_manual(values =c("red","orange"))
   
-  
-  p  <- p +  xlim(as.Date(c(dateRange[1],dateRange[2]),format = "%Y-%m-%d"))
+  p  <- p +  xlim(as.Date(c(dateRange[1],dateRange[2]),format = "%Y-%B-%d"))
   
   
   p <- p + theme(axis.text = element_text(colour = "black",size = 14,face= "bold"))
-  
+  p <- p + scale_y_continuous(limits=c(min(as.numeric(tempdata$value)),max(as.numeric(tempdata$value))+10))
   p <- p + theme(plot.background = element_rect(
     colour = "black", fill = "white", size = 1))
   p <- p + theme(panel.background = element_rect(fill = NA))
@@ -64,7 +66,13 @@ plotOverview <- function(dateRange = c(as.Date("2011-03-01","%Y-%m-%d"),
       fill = NA,
       colour = "white",
       size = 1))
+  p <- p + theme(panel.grid.major = element_line(color = "grey"))
+  p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
+                 legend.background = element_rect(fill = "transparent"))
+  
   return(p)
+  
+  
 }
 
 
@@ -82,7 +90,7 @@ plotbar <- function(city = "Houston,Tx"){
   total_aggdata <- aggregate(totaldata$value,
                              by = list(totaldata$month), sum)
   total_aggdata$x <- total_aggdata$x/length(unique(molten$City))
-  avg_data <- data.frame("Average RainFall",total_aggdata$Group.1,total_aggdata$x)
+  avg_data <- data.frame("Average RainFall over all citites",total_aggdata$Group.1,total_aggdata$x)
   colnames(avg_data) <- c("Rainfall","Month","Value")
   city_data <- data.frame("RainFall",city_aggdata$Group.1,city_aggdata$x)
   colnames(city_data) <- c("Rainfall","Month","Value")
@@ -109,7 +117,7 @@ plotbar <- function(city = "Houston,Tx"){
 #plotbar("Houston,Tx")
 
 
-plotmap <- function(date = "2012-01-21", variable = "Temperature") {
+plotmap <- function(date = "2012-07-21", variable = "Temperature") {
   # Load us map data
   
   #browser()
@@ -145,7 +153,7 @@ plotmap <- function(date = "2012-01-21", variable = "Temperature") {
   if(variable == "Temperature"){
     p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Humidity"){
-    p <- p + scale_color_gradient(low = "grey", high = "blue")
+    p <- p + scale_color_gradient(low = "cyan", high = "red")
   } else if(variable == "Dew.Point.Temperature"){
     p <- p + scale_color_gradient(low = "yellow", high = "red")       
   } else if(variable == "Percent.Cloud.Cover"){
@@ -159,7 +167,8 @@ plotmap <- function(date = "2012-01-21", variable = "Temperature") {
 plotmap(date = "2012-07-21", variable = "Humidity")
 
 
-modelPlot <- function(city = "Houston,Tx")
+modelPlot <- function(dateRange = c(as.Date("2012-03-01","%Y-%m-%d"),
+                                    as.Date("2014-01-31","%Y-%m-%d")), city = "Boston,Ma")
 {
   citydata<- subset(weather_data, City == city)
   
@@ -174,16 +183,19 @@ modelPlot <- function(city = "Houston,Tx")
   
   modeldata <- data.frame(lagged_data$Date, actual_temperature, predicted_temperature)
   model_data <- melt(modeldata,id="lagged_data.Date")
-  p <- ggplot(data = model_data ) + geom_line(aes(x= lagged_data.Date,y = value,color=variable))
+  p <- ggplot(data = model_data ) + geom_line(aes(x= lagged_data.Date,y = value,color=variable,alpha=0.6))
   
   p <- p + ylab("Temperature (In Fahreinheit)") + xlab("Date")
   p <- p + theme(axis.text = element_text(colour = "black",size = 14))
-  
+  p  <- p +  xlim(as.Date(c(dateRange[1],dateRange[2]),format = "%Y-%m-%d"))
   p <- p + theme(plot.background = element_rect(
     colour = "black", fill = "white", size = 1))
   p <- p + theme(panel.background = element_rect(fill = NA))
-  
+  p <- p + scale_color_manual(values = c("red","blue"))
   p <- p + theme(axis.line = element_line(colour = "black"))
+  p <- p + theme(axis.text = element_text(colour = "black",size = 14,face= "bold"))
+  p <- p + scale_y_continuous(limits=c(min(as.numeric(model_data$value)),max(as.numeric(model_data$value))+10))
+  p <- p + scale_alpha(guide = 'none')
   p <- p + theme(
     legend.text = element_text(
       colour = "black",
@@ -197,12 +209,15 @@ modelPlot <- function(city = "Houston,Tx")
       fill = NA,
       colour = "white",
       size = 1))
+  p <- p + theme(panel.grid.major = element_line(color = "grey"))
+  p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
+                 legend.background = element_rect(fill = "transparent"))
   return(p)
 }
 #modelPlot("Houston,Tx")
 
-parallelPlot <- function(city = "Houston,Tx", season1 = "Summer"){
-  city_data <- subset(weather_data, City ==city)
+parallelPlot <- function(parallelCity = "Boston,Ma", season1 = "Summer"){
+  city_data <- subset(weather_data, City == parallelCity)
   year_data <- subset(city_data, year =="2013")
   
   year_data$season<-ifelse(year_data$month %in% c("Mar","Apr","May"),"Spring",
@@ -213,8 +228,9 @@ parallelPlot <- function(city = "Houston,Tx", season1 = "Summer"){
   p <- ggparcoord(data = year_data, 
                   columns = c(2,3,5,7),
                   groupColumn =ncol(year_data),
-                  scale = "uniminmax",
-                  shadeBox = NULL) 
+                  scale = "uniminmax",shadeBox=NULL,alpha=0.5
+                  ) 
+  
   factor_season <- c("Autumn","Spring","Summer","Winter")
   palette <- c("#E41A1C", "#377EB8", "#4DAF4A" ,"#984EA3")
 #   if(length(season1) == 0 | length(season1) == 4) {
@@ -237,19 +253,22 @@ for(i in 1:nrow(col)){
    
     d <- as.character(col[i,"color"])
     col[i,"newcolor"] <- d
-    #col[i,"alpha"] <- 1
+#    col[i,"alpha"] <- 1
     
   }
   else{
    
-    col[i,"newcolor"] <- "grey"
-   # col[i,"alpha"] <- 0.2
+    col[i,"newcolor"] <- "#DDDDDD"
+ #   col[i,"alpha"] <- 0.2
   }
   
+
 }
+#year_data$alphaLevel <- c("Autumn" = col$alpha[1], "Spring" = col$alpha[2],"Summer" = col$alpha[3],"Winter" = col$alpha[4])[year_data$season]
+
 
 p <- p + scale_color_manual(values = col$newcolor)
-  
+
 p <- p + ggtitle("Seasonal Trend - 2013")
 
 p <-p+theme(panel.grid.major = element_line(color = "grey90"),
@@ -257,33 +276,34 @@ p <-p+theme(panel.grid.major = element_line(color = "grey90"),
 p <-p+theme(plot.background = element_rect(colour = 'black', 
                                             fill = 'white', size = 1))
   
-  p <- p + scale_y_continuous(expand = c(0.02, 0.02))
-  p <- p + scale_x_discrete(expand = c(0.02, 0.02))
-  # Remove axis ticks and labels
-  p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
+p <- p + scale_y_continuous(expand = c(0.02, 0.02))
+p <- p + scale_x_discrete(expand = c(0.02, 0.02))
+p <- p + guides(colour = guide_legend(override.aes = list(size=3)))
+# Remove axis ticks and labels
+p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
                  legend.background = element_rect(fill = "transparent"))
-  min_y <- min(p$data$value)
-  max_y <- max(p$data$value)
-  pad_y <- (max_y - min_y) * 0.1  
-  lab_x <- rep(1:4, times = 2)
-  lab_y <- rep(c(min_y - pad_y, max_y + pad_y), each = 4)
+min_y <- min(p$data$value)
+max_y <- max(p$data$value)
+pad_y <- (max_y - min_y) * 0.1  
+lab_x <- rep(1:4, times = 2)
+lab_y <- rep(c(min_y - pad_y, max_y + pad_y), each = 4)
   
-  # Get min and max values from original dataset
-  lab_z <- c(sapply(year_data[, c(2,3,5,7)], min), sapply(year_data[, c(2,3,5,7)], max))
-  # Convert to character for use as labels
-  lab_z <- as.character(lab_z)
-  # Add labels to plot
-  p <- p + annotate("text", x = lab_x, y = lab_y, label = lab_z, size = 5, color ="black")
-  p <- p + theme(text = element_text(colour="black",size=14))
+# Get min and max values from original dataset
+lab_z <- c(sapply(year_data[, c(2,3,5,7)], min), sapply(year_data[, c(2,3,5,7)], max))
+# Convert to character for use as labels
+lab_z <- as.character(lab_z)
+# Add labels to plot
+p <- p + annotate("text", x = lab_x, y = lab_y, label = lab_z, size = 5, color ="black")
+p <- p + theme(text = element_text(colour="black",size=12))
   
-  p <- p + theme(axis.title = element_blank())
+p <- p + theme(axis.title = element_blank())
   
-  p <- p + theme(axis.text.y = element_blank())
-  # Clear axis lines
-  p <- p + theme(panel.grid.minor = element_blank())
-  p <- p + theme(panel.grid.major.y = element_blank())
+p <- p + theme(axis.text.y = element_blank())
+# Clear axis lines
+p <- p + theme(panel.grid.minor = element_blank())
+p <- p + theme(panel.grid.major.y = element_blank())
   # Darken vertical lines
-  p <- p + theme(panel.grid.major.x = element_line(color = "black"))
-  p
-  return(p)
+p <- p + theme(panel.grid.major.x = element_line(color = "grey"))
+p <- p + theme(axis.text =element_text(color="black"))
+return(p)
 }

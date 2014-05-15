@@ -22,7 +22,7 @@ shinyServer(function(input, output) {
   })
   output$modelingPlot <- renderPlot({
     
-    print(modelPlot(input$predictCity))
+    print(modelPlot(input$dateRangepredict,input$predictCity))
   })
   
 })

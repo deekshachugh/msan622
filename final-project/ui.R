@@ -7,7 +7,7 @@ shinyUI(
       fluidRow(
         column(
           width = 3,
-          selectizeInput("mapPlotDate", "Date", choices = unique(molten$Date)),
+          selectizeInput("mapPlotDate", "Choose Any Date between 03/2011 - 02/2014:", choices = unique(molten$Date)),
           radioButtons(
             "mapPlotVariable", "Variables:", c(
               'Temperature', 'Dew.Point.Temperature',
@@ -32,11 +32,11 @@ shinyUI(
       fluidRow(
         column(
           width = 3,
-          selectizeInput("dailyTemperatureCity", "City", choices = unique(molten$City)),
+          selectizeInput("dailyTemperatureCity", "Choose City:", choices = unique(molten$City)),
 
           dateRangeInput(
             "dateRange",
-            "Date Range",
+            "Choose Date Range between 03/2011 - 02/2014",
             start =  "2011-03-01",
             end =  "2014-01-31"
             #value = c(as.Date("2011-03-01","%Y-%m-%d"),as.Date("2014-01-31","%Y-%m-%d")),
@@ -58,7 +58,7 @@ shinyUI(
       fluidRow(
         column(
           width = 3,
-          selectizeInput("rainfallCity", "City", choices = unique(molten$City))
+          selectizeInput("rainfallCity", "Choose City:", choices = unique(molten$City))
         ),
         column(
           width = 9,
@@ -73,9 +73,9 @@ shinyUI(
       fluidRow(
         column(
           width = 3,
-          selectizeInput("parallelCity", "City", choices = unique(molten$City)),
+          selectizeInput("parallelCity", "Choose City:", choices = unique(molten$City)),
           checkboxGroupInput(
-            "Season", "Season:", c(
+            "Season", "Choose Season:", c(
               'Summer', 'Winter',
               'Spring', 'Autumn'),
             selected = c('Summer', 'Winter',
@@ -97,7 +97,16 @@ shinyUI(
       fluidRow(
         column(
           width = 3,
-          selectizeInput("predictCity", "City", choices = unique(molten$City))
+          selectizeInput("predictCity", "Choose City:", choices = unique(molten$City)),
+          dateRangeInput(
+            "dateRangepredict",
+            "Choose Date Range between 03/2011 - 02/2014",
+            start =  "2012-03-01",
+            end =  "2014-01-31"
+            #value = c(as.Date("2011-03-01","%Y-%m-%d"),as.Date("2014-01-31","%Y-%m-%d")),
+            #step = 30 
+            
+          )
         ),
         column(
           width = 9,
