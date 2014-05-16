@@ -38,7 +38,7 @@ I did not implement the outlier analysis suggested by Manoj as I wanted to focus
 
 
 
-###Challenges###.
+###Challenges###
 
 The biggest challenge for me was to implement brushing in my parallel coordinate plot. I fixed the colors of each season to make it consistent. The problem was that when I de-select any season in my plot then the lines which are grey appears on top of the solid lines which I want to show. I tried to set the alpha level also for the de-selected lines but it was not helpful. I was still not able to implement it. To reduce the effect of grey lines on my solid lines I reduced the alpha level for all the lines and made the grey lines more white in color. 
  
@@ -49,8 +49,9 @@ The wind speed extracted from the wunderground.com had some really abnormal valu
 
 If I had more time, I would have implemented it in D3 with nice interativity wherein you can have a tooltip to see which point is what temperature or humitdity in all my plots. I think that would have been very useful from user point of view. I could have added more data like weekly flu trends or any product sales data and do some analysis on how temperature is related to it.
 
-
+### Technique1 ###
 ###US Weather Overview - 54 Citites (2011-2013)###
+
 ![IMAGE](US-Overview-temperature.png)
 
 
@@ -76,7 +77,7 @@ This kind of interactivity is important so that user can explore what he/she is 
 
 The above plot shows the interface of my shiny application.
 
-
+### Technique2 ###
 ###City Temperature Overview ###
 
 ![IMAGE](DailyTempOverview.png)
@@ -96,7 +97,9 @@ This filtering technique allows the user to see different citites, therefore, it
 Below is the graph showing the zoomed in version of the above plot.
 ![IMAGE](zoomedTemp.png)
 
+### Technique3 ###
 ###City Rainfall Overview ###
+
 ![IMAGE](Rainfall.png)
 
 I created a month column from the date and then used aggregate function to combine the data for various months to get average rainfall for all citites. I aggregated city level data also to sum the precipitation over all months. 
@@ -109,6 +112,7 @@ To improve data ink ratio I removed all the gridlines. The lie factor in this gr
 #####Interactivity#####
 I have implemented filtering for this plot because it would be interesting for user to see different citites rainfall level for various months. For example, Seattle has high rainfall in summer and San Francisco has so low rainfall. We are able to make comparisons becuase of this interactivity given to the user.
 
+### Technique4 ###
 ### Seasonal Trend ###
 ![IMAGE](SeasonalTrend.png)
 
@@ -130,6 +134,7 @@ I learnt that for Detroit, Cincinati Humidity is always high no matter which sea
 #####Interactivity#####
 I implemented brushing and filtering for this technique. User can select any season in which he/she is interested and have rest of the season in background to provde context about the data. There are four seasons and the color is fixed for each of the color. If you want to see one season, you can de-select the others and it will become grey in color. The user can also search the city from city list to see different trends across different citites.
 
+### Technique5 ###
 ### Temperature Prediction  ###
 ![IMAGE](prediction.png)
 
