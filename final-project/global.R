@@ -17,6 +17,7 @@ weather_data[,7] <- round(as.numeric(levels(weather_data[,7]))[weather_data[,7]]
 weather_data$Date <- as.character(weather_data$Date)
 weather_data$Date <- as.Date(weather_data$Date,"%Y%m%d")
 weather_data$City <- gsub(",\\w*","",weather_data$City)
+weather_data$City <- gsub("/\\w*","",weather_data$City)
 
 weather_data$City[weather_data$City=="NewYork(New)"] <- "NewYork"
 weather_data$City[weather_data$City=="SanFran"] <- "SanFrancisco"
@@ -43,7 +44,7 @@ plotOverview <- function(dateRange = c(as.Date("2011-03-01","%Y-%m-%d"),
                      aes(group = variable, color = variable))
   p <- p + xlab("Date") +ylab("In Fahrenheit")
   p <- p + scale_color_manual(values =c("red","orange"))
-  
+  p <- p + theme(axis.title.x =element_blank())
   p  <- p +  xlim(as.Date(c(dateRange[1],dateRange[2]),format = "%Y-%B-%d"))
   
   
@@ -125,7 +126,7 @@ plotmap <- function(date = "2012-07-21", variable = "Temperature") {
   p <- ggplot()
   p <- p + geom_polygon(data = all_states,
                         aes(x = long, y = lat, group = group),
-                        fill = "black",color="white")
+                        fill = "white",color="dark grey")
   subdata <- subset(weather_data, weather_data$Date == date)
   #subdata$Temperature <- paste(subdata$Temperature, "F", sep = " ")
   p <- p + geom_point(data = subdata,
@@ -136,9 +137,9 @@ plotmap <- function(date = "2012-07-21", variable = "Temperature") {
                       alpha = 0.8
   )
   #browser()
-  # p <- p + geom_text(data = subdata, hjust = -0.9, vjust = 0.9, aes_string(
-  #    x = "Longitude", y = "Latitude", label = variable), colour = "black",
-  #    size = 5)
+  #p <- p + geom_text(data = subdata, aes_string(
+  #    x = "Longitude", y = "Latitude", label = "City"), colour = "black",
+  #    size = 4,position=position_jitter(h=2,w=2))
   
   p <- p + ggtitle("United States Overview - 54 citites")
   p <- p + theme(plot.title=element_text(family="Times", face="bold", size=20))
@@ -173,7 +174,7 @@ modelPlot <- function(dateRange = c(as.Date("2012-03-01","%Y-%m-%d"),
   citydata<- subset(weather_data, City == city)
   
   subcitydata <- citydata[366:nrow(citydata),]
-  last_year_temp <- citydata$Temperature[1:727]
+  last_year_temp <- citydata$Temperature[1:719]
  
   lagged_data <- data.frame(subcitydata,last_year_temp)
   
@@ -212,6 +213,8 @@ modelPlot <- function(dateRange = c(as.Date("2012-03-01","%Y-%m-%d"),
   p <- p + theme(panel.grid.major = element_line(color = "grey"))
   p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
                  legend.background = element_rect(fill = "transparent"))
+  p <- p + theme(axis.title.x =element_blank())
+  p < - p + theme(axis.text.y = )
   return(p)
 }
 #modelPlot("Houston,Tx")
