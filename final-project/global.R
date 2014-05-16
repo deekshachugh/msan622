@@ -8,7 +8,7 @@ x <- getURL("http://deekshachugh.github.io/misc/weatherdata.csv")
 #x <- getURL("https://raw.githubusercontent.com/deekshachugh/msan622/master/project-prototype/weatherdata.csv")
 weatherdata <- read.csv(text = x)
 #weatherdata <- read.csv("/home/deeksha/github/msan622/project-prototype/data/weatherdata.csv")
-weather_data <- weatherdata[9:(nrow(weatherdata)-16),2:ncol(weatherdata)]
+weather_data <- weatherdata[,2:ncol(weatherdata)]
 
 weather_data[,4] <- round(as.numeric(levels(weather_data[,4]))[weather_data[,4]],2)
 weather_data[,5] <- round(as.numeric(levels(weather_data[,5]))[weather_data[,5]],1)
@@ -169,13 +169,13 @@ plotmap(date = "2012-07-21", variable = "Humidity")
 
 
 modelPlot <- function(dateRange = c(as.Date("2012-03-01","%Y-%m-%d"),
-                                    as.Date("2014-01-31","%Y-%m-%d")), city = "Boston,Ma")
+                                    as.Date("2014-01-31","%Y-%m-%d")), city = "Boston")
 {
   citydata<- subset(weather_data, City == city)
   
   subcitydata <- citydata[366:nrow(citydata),]
-  last_year_temp <- citydata$Temperature[1:719]
- 
+  last_year_temp <- citydata$Temperature[1:727]
+
   lagged_data <- data.frame(subcitydata,last_year_temp)
   
   model <- randomForest(Temperature~last_year_temp+ Dew.Point.Temperature+Precipitation+Humidity+Percent.Cloud.Cover, data= lagged_data)
@@ -214,7 +214,7 @@ modelPlot <- function(dateRange = c(as.Date("2012-03-01","%Y-%m-%d"),
   p <- p + theme(axis.ticks = element_blank(),legend.key = element_rect(fill = "transparent"),
                  legend.background = element_rect(fill = "transparent"))
   p <- p + theme(axis.title.x =element_blank())
-  p < - p + theme(axis.text.y = )
+
   return(p)
 }
 #modelPlot("Houston,Tx")

@@ -51,7 +51,6 @@ If I had more time, I would have implemented it in D3 with nice interativity whe
 
 
 ###US Weather Overview - 54 Citites (2011-2013)###
-
 ![IMAGE](US-Overview-temperature.png)
 
 
@@ -62,9 +61,9 @@ The latitude and longitude information of cities was required to generate this k
 I used melt from reshape library to covert this data into long format. The date column was a character column therefore, I also converted to date class so that it shows appropriate date. To show different city I am subsetting my data to use the city specific data of 3 years.
 This visualization excels at showing the comparison of temperature or Humidity or Percentage Cloud Cover across so many cities on any particular day of the year. The plot helps in detecting outliers in terms of city. It can answers question like which city was hottest or coldest on any day. If I had more time I would have shown the same plot for different seasons, months and weeks.
 
-![IMAGE](US-Overview-Humidity.png)
+![IMAGE](US-Overview-Cloud.png)
 
-The above plot shows the heatmap of Humidity across 54 citites in US. The color gradient is chosen to be cyan to red. All the customizations applied on the above plot are also applied here.
+The above plot shows the heatmap of Percentage Cloud Cover across 54 citites in US. The color gradient is chosen to be light blue to blue as a depiction of cloud. All the customizations applied on the above plot are also applied here.
 
 #####Interactivity#####
 
@@ -72,6 +71,10 @@ I implemented filtering for date as well as type of variable user is interested 
 The radio button is added for user to select the variable which they want to view. The variables included are Temperature, Dew Point Temperature, Humidity and Percent Cloud Cover. 
 
 This kind of interactivity is important so that user can explore what he/she is looking for any particular day of the year. The user can fix the date and see how the humidity, temperature or other variables are different for each city.
+
+![IMAGE](Interface1.png)
+
+The above plot shows the interface of my shiny application.
 
 
 ###City Temperature Overview ###
@@ -101,10 +104,10 @@ I created a month column from the date and then used aggregate function to combi
 This plot displays the average rainfall of all the 54 citites along with the rainfall of a particular city for all the months in 2013. The light blue color is depicting the city rainfall and dark blue color is depicting the average rainfall. I reasearched a lot on Internet on how to visualize rainfall in a city and found that bar plot is apporpriate way to show total rainfall. To make the graph interesting, I added the city and average side by side so that its easier to compare which city has high rainfall in which particular months.
 To improve data ink ratio I removed all the gridlines. The lie factor in this graph could be that since this average rainfall is only for 54 citites of US so its not very appropriate to compare city's precipitation with average. The data density is also good for this plot as its conveying a lot of information. 
 
-I also learnt from this graph that the rainfall in San Francisco is really low compared to the other citites and average. The maximum rainfall we can see is in december for 2013. I also learnt that Seattle has highest rainfall in the month of September. This plot can provide a lot of inferences like that by changing the city.
+ I also learnt from this graph that the rainfall in San Francisco is really low compared to the other citites and average. The maximum rainfall we can see is in december for 2013. I also learnt that Seattle has highest rainfall in the month of September. This plot can provide a lot of inferences like that by changing the city.
 
 #####Interactivity#####
-I used filtering for this plot because the data has 54 citites and its easier to search for a city of interest for the user to interact with it. 
+I have implemented filtering for this plot because it would be interesting for user to see different citites rainfall level for various months. For example, Seattle has high rainfall in summer and San Francisco has so low rainfall. We are able to make comparisons becuase of this interactivity given to the user.
 
 ### Seasonal Trend ###
 ![IMAGE](SeasonalTrend.png)
@@ -130,7 +133,16 @@ I implemented brushing and filtering for this technique. User can select any sea
 ### Temperature Prediction  ###
 ![IMAGE](prediction.png)
 
-I used a random forest, a machine learning technique to make a model which can predict temperature. The plot shows the temperature as well as its predicted temperature by a multiline plot.
+For this plot I created lagged one year temperature as for mostly all time series last period is highly significant in the model. Using the library randomForest I created a model and used predict function to get the predicted values.
+
+I implemented line chart to show the actual temperature and the predicted temperature of the model designed by me. I understand that its a repetition of the above technique  but I think the multi line chart is appropriate way to show temperature and its predicted value.Also, this is my fifth plot I thought I can use the same technique. 
+
+I have used a random forest, a machine learning technique to make a model which can predict temperature. 
+
+I learnt from this graph that random forest is able to predict temperature of citites like  very nicely. However, for citites like SAn Francisco, the model does not work as good as for other citites. This could be the case becuase I have not included wind speed which could be really important in predicting temperature of SAn Francisco.
+For almost all the citites temperature prediction was not so good when there is high peaks of temperature.
 
 #####Interactivity#####
-The user can select any city for which they are interested in temperature prediction.
+I used filtering and zooming for this plot because the data has 54 citites and its easier to search for a city of interest for the user to interact with it. Since, the data density is very high and there is a lot of overplotting, zooming feature is helping to see the predictions for each month clearly.
+
+
